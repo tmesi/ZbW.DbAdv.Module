@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DumbDb": {
+      "commandName": "Project",
+      "commandLineArgs": "contacts.mdb Person Contact"
+    }
+  }
+}

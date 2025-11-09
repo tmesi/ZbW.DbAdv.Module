@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "06_Access": {
+      "commandName": "Project",
+      "commandLineArgs": "sqlcmd.txt result.txt"
+    }
+  }
+}

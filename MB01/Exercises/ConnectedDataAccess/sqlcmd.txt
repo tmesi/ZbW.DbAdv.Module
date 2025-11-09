@@ -1,0 +1,5 @@
+﻿provider=Microsoft.ACE.OLEDB.16.0; data source=./Contacts.mdb
+SELECT * FROM Contact;
+SELECT * FROM Person;
+UPDATE Person SET Name = 'Modified' WHERE ID = 1;
+SELECT * FROM Person;
