@@ -35,9 +35,17 @@ namespace EFCoreDemo
 
             modelBuilder.Entity<Course>().Property(c => c.Title).IsRequired();
 
+      #region Categories
+      modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Web Development" },
+                new Category { Id = 2, Name = "Programming Languages" },
+                new Category { Id = 3, Name = "Science" }
+            );
+      #endregion
 
-            #region Add Tags
-            var tags = new Dictionary<string, Tag>
+
+      #region Add Tags
+      var tags = new Dictionary<string, Tag>
             {
                 {"c#", new Tag {Id = 1, Name = "c#"}},
                 {"angularjs", new Tag {Id = 2, Name = "angularjs"}},
