@@ -1,4 +1,4 @@
-﻿namespace EFCoreDemo.Model {
+﻿namespace EFCoreDemo.Models {
     public class Author {
 #nullable enable
         public int Id { get; set; }

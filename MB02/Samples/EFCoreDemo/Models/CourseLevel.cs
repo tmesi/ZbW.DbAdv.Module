@@ -1,4 +1,4 @@
-﻿namespace EFCoreDemo.Model {
+﻿namespace EFCoreDemo.Models {
     public enum CourseLevel {
         Beginner = 1,
         Intermediate = 2,

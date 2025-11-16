@@ -1,39 +1,39 @@
-﻿using EFCoreDemo.Model;
+﻿using EFCoreDemo.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreDemo
 {
     public class CourseContext : DbContext
     {
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<CourseTag> CourseTags { get; set; }
-        public DbSet<Category> Categories { get; set; }
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Author> Authors { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<CourseTag> CourseTags { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Database=EFCoreDemo;Trusted_Connection=True;TrustServerCertificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+      optionsBuilder.UseSqlServer("Server=.;Database=EFCoreDemo;Trusted_Connection=True;TrustServerCertificate=True");
 
-            //optionsBuilder.LogTo(Console.WriteLine);
-        }
+      //optionsBuilder.LogTo(Console.WriteLine);
+    }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<CourseTag>()
-                .HasKey(ct => new { ct.CourseId, ct.TagId });
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<CourseTag>()
+          .HasKey(ct => new { ct.CourseId, ct.TagId });
 
-            modelBuilder.Entity<CourseTag>()
-                .HasOne(ct => ct.Course)
-                .WithMany(c => c.CourseTags)
-                .HasForeignKey(ct => ct.CourseId);
+      modelBuilder.Entity<CourseTag>()
+          .HasOne(ct => ct.Course)
+          .WithMany(c => c.CourseTags)
+          .HasForeignKey(ct => ct.CourseId);
 
-            modelBuilder.Entity<CourseTag>()
-                .HasOne(ct => ct.Tag)
-                .WithMany(t => t.CourseTags)
-                .HasForeignKey(ct => ct.TagId);
+      modelBuilder.Entity<CourseTag>()
+          .HasOne(ct => ct.Tag)
+          .WithMany(t => t.CourseTags)
+          .HasForeignKey(ct => ct.TagId);
 
-            modelBuilder.Entity<Course>().Property(c => c.Title).IsRequired();
+      modelBuilder.Entity<Course>().Property(c => c.Title).IsRequired();
 
       #region Categories
       modelBuilder.Entity<Category>().HasData(
@@ -55,46 +55,46 @@ namespace EFCoreDemo
                 {"linq", new Tag {Id = 6, Name = "linq"}},
             };
 
-            foreach (var tag in tags.Values)
-                modelBuilder.Entity<Tag>().HasData(tag);
-            #endregion
+      foreach (var tag in tags.Values)
+        modelBuilder.Entity<Tag>().HasData(tag);
+      #endregion
 
-            #region Add Authors
-            var authors = new List<Author>
+      #region Add Authors
+      var authors = new List<Author>
             {
-                new Author
+                new()
                 {
                     Id = 1,
                     Name = "Bill Gates"
                 },
-                new Author
+                new()
                 {
                     Id = 2,
                     Name = "Anthony Alicea"
                 },
-                new Author
+                new()
                 {
                     Id = 3,
                     Name = "Eric Wise"
                 },
-                new Author
+                new()
                 {
                     Id = 4,
                     Name = "Tom Owsiak"
                 },
-                new Author
+                new()
                 {
                     Id = 5,
                     Name = "John Smith"
                 }
             };
 
-            foreach (var author in authors)
-                modelBuilder.Entity<Author>().HasData(author);
-            #endregion
+      foreach (var author in authors)
+        modelBuilder.Entity<Author>().HasData(author);
+      #endregion
 
-            #region Add Courses
-            var courses = new List<object>
+      #region Add Courses
+      var courses = new List<object>
             {
                 new
                 {
@@ -188,59 +188,59 @@ namespace EFCoreDemo
                 }
             };
 
-            foreach (var course in courses)
-                modelBuilder.Entity<Course>().HasData(course);
-            #endregion
+      foreach (var course in courses)
+        modelBuilder.Entity<Course>().HasData(course);
+      #endregion
 
-            #region Add CourseTags
-            var courseTags = new List<CourseTag>
+      #region Add CourseTags
+      var courseTags = new List<CourseTag>
             {
-                             new CourseTag
+                             new()
                 {
                     CourseId = 1,
                     TagId = tags["c#"].Id
                 },
-                               new CourseTag
+                               new()
                 {
                     CourseId = 7,
                     TagId = tags["c#"].Id
                 },
-                               new CourseTag
+                               new()
                 {
                     CourseId = 8,
                     TagId = tags["c#"].Id
                 },
- new CourseTag
+ new()
                 {
                     CourseId = 3,
                     TagId = tags["c#"].Id
                 },
-                new CourseTag
+                new()
                 {
                     CourseId = 2,
                     TagId = tags["c#"].Id
                 },
-                      new CourseTag
+                      new()
                 {
                     CourseId = 2,
                     TagId = tags["oop"].Id
                 },
-                      new CourseTag
+                      new()
                 {
                     CourseId = 4,
                     TagId = tags["javascript"].Id
                 },
-                                  new CourseTag
+                                  new()
                 {
                     CourseId = 9,
                     TagId = tags["javascript"].Id
                 },
-          new CourseTag
+          new()
                 {
                     CourseId = 5,
                     TagId = tags["angularjs"].Id
                 },
-                      new CourseTag
+                      new()
                 {
                     CourseId = 6,
                     TagId = tags["nodejs"].Id
@@ -248,9 +248,9 @@ namespace EFCoreDemo
 
             };
 
-            foreach (var courseTag in courseTags)
-                modelBuilder.Entity<CourseTag>().HasData(courseTag);
-            #endregion
-        }
+      foreach (var courseTag in courseTags)
+        modelBuilder.Entity<CourseTag>().HasData(courseTag);
+      #endregion
     }
+  }
 }

@@ -1,4 +1,4 @@
-﻿namespace EFCoreDemo.Model {
+﻿namespace EFCoreDemo.Models {
 
 
   using System.ComponentModel.DataAnnotations;
