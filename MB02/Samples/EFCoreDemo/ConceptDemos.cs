@@ -256,26 +256,26 @@
             .Include(x => x.Author)
             .Include(x => x.Category)
             .Single(c => c.Id == 4);
-        //Wait();
+        Wait();
 
         
         foreach (var courseTag in course.CourseTags)
         {
-          Console.WriteLine(courseTag.Tag.Name);
+         Console.WriteLine(courseTag.Tag.Name);
         }
 
-        //Wait();
+        Wait();
 
         // Lazy Loading N+1
         var courses = context.Courses.Include(c => c.Author).ToList();
-        //Wait();
+        Wait();
 
         foreach (var c in courses)
         {
           Console.WriteLine($"{c.Title} - {c.Author.Name}");
         }
 
-        //Wait();
+        Wait();
 
         // Eager Loading (mit Magic String)
         var courses1 = context.Courses.Include("Author").ToList();
@@ -284,7 +284,7 @@
           Console.WriteLine($"{c.Title} - {c.Author.Name}");
         }
 
-        //Wait();
+        Wait();
 
         // Eager Loading (ohne Magic String)
         var courses2 = context.Courses.Include(c => c.Author).ToList();
@@ -294,17 +294,17 @@
           Console.WriteLine($"{c.Title} - {c.Author.Name}");
         }
 
-        //Wait();
+        Wait();
 
         // Eager Loading -> komplexe Statements
         var author1 = context.Authors.Include(a => a.Courses).Single(a => a.Id == 2);
-        //Wait();
+        Wait();
 
         // Explicit Loading
         var author2 = context.Authors.Single(a => a.Id == 3);
-        //Wait();
+        Wait();
         context.Courses.Where(c => c.Author.Id == author2.Id).Load();
-        //Wait();
+        Wait();
         foreach (var c in author2.Courses)
         {
           Console.WriteLine($"{c.Title}");

@@ -15,15 +15,15 @@
 
     [Required]
     public string? Description { get; set; }
-    public CourseLevel Level { get; set; }
+    public virtual CourseLevel Level { get; set; }
 
     [Column(TypeName = "decimal(7,2)")]
     public decimal FullPrice { get; set; }
 
-    public Author Author { get; set; }
-    public ICollection<CourseTag> CourseTags { get; set; }
+    public virtual Author Author { get; set; }
+    public virtual ICollection<CourseTag> CourseTags { get; set; }
 
-    public Category Category { get; set; }
+    public virtual Category Category { get; set; }
 
   }
 }

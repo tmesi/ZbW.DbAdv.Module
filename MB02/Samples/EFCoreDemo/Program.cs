@@ -17,11 +17,11 @@
 
       //conceptDemos.DoQueries();
 
-      //conceptDemos.DoLoading();
+     conceptDemos.DoLoading();
 
       //conceptDemos.DoEdit();
 
-      conceptDemos.DoUnitOfWork();
+      //conceptDemos.DoUnitOfWork();
     }
   }
 }
