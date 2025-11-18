@@ -9,17 +9,17 @@
       /*  
           call methods separately 
           before every call execute:
-          dotnet database drop --force
-          dotnet database update
+          dotnet ef database drop --force
+          dotnet ef database update
       */
 
       //conceptDemos.DoCodeFirst();
 
       //conceptDemos.DoQueries();
 
-     conceptDemos.DoLoading();
+      //conceptDemos.DoLoading();
 
-      //conceptDemos.DoEdit();
+      conceptDemos.DoEdit();
 
       //conceptDemos.DoUnitOfWork();
     }
