@@ -1,15 +1,16 @@
 ﻿namespace CodeFirst.VidApp.Models
 {
+  using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
 
-  public class Genre
+  public class Tag
   {
-    public byte Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(255)]
     public required string Name { get; set; }
-    
-    public ICollection<Video>? Videos { get; set; }
+
+    public ICollection<Video>? Videos { get; private set; }
   }
 }
