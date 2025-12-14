@@ -23,35 +23,4 @@ INSERT INTO Studenten (id, Klasse, Name, Punkte) values (10, 'C', 'Sybille', 14.
 INSERT INTO Studenten (id, Klasse, Name, Punkte) values (11, 'C', 'Jonas', 22.1);
 INSERT INTO Studenten (id, Klasse, Name, Punkte) values (12, 'C', 'Nando', 22.6);
 
-SELECT	*
-FROM	(
-			SELECT	*,
-					Punkte * 5 / 23 + 1 AS Note
-			FROM	Studenten
-		) AS q
-WHERE	Note >= 5;
-
-WITH cte
-AS
-(
-	SELECT	*,
-			Punkte * 5 / 23 + 1 AS Note
-	FROM	Studenten
-)
-SELECT	*
-FROM	cte
-WHERE	Note >= 5;
-
-WITH cte
-AS
-(
-	SELECT	*,
-			Punkte * 5 / 23 + 1 AS Note
-	FROM	Studenten
-)
-
-SELECT	*,
-		RANK() OVER (PARTITION BY Klasse
-					ORDER BY Note DESC
-					)	AS Rang
-FROM	cte;
+-- solution here

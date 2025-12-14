@@ -22,19 +22,7 @@ INSERT INTO Person (id, Name, Vater, Mutter) values (6, 'Mario', 4, 5);
 WITH cte
 AS
 (
-	SELECT	id,
-			Name,
-			CAST('???' AS VARCHAR(MAX)) AS Vater
-	FROM	Person
-	WHERE	Vater IS NULL
-	UNION ALL
-	SELECT	a.id,
-			a.Name,
-			CAST(a.Name + '->' + b.Vater AS VARCHAR(MAX))
-	FROM	Person	a
-			INNER JOIN
-			cte		b
-				ON a.Vater = b.id
+-- solution here
 )
 SELECT	*
 FROM	cte;
