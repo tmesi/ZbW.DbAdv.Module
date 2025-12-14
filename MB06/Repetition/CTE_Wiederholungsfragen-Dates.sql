@@ -1,0 +1,11 @@
+WITH cte_dates
+AS
+(
+	SELECT	CONVERT(DATE, GETDATE()) AS date
+	UNION ALL
+	SELECT	CONVERT(DATE, DATEADD(DAY, 1, date))
+	FROM	cte_dates
+	WHERE	DATEADD(DAY, 1, date) < DATEADD(DAY, 10, GETDATE())
+)
+SELECT	date
+FROM	cte_dates;

@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Samples">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="00-Motivation-1-Derived-Table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>00-Motivation-1-Derived-Table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="00-Motivation-2-Derived-Table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>00-Motivation-2-Derived-Table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="00-Motivation-3-Recursive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>00-Motivation-3-Recursive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="01-Non-Recursive-CTE-example.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>01-Non-Recursive-CTE-example.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02-Semicolon-requirements.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>02-Semicolon-requirements.sql</FullPath>
+        </FileNode>
+        <FileNode Name="03-When-column-names-must-be-specified.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>03-When-column-names-must-be-specified.sql</FullPath>
+        </FileNode>
+        <FileNode Name="04-Execution-scope.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>04-Execution-scope.sql</FullPath>
+        </FileNode>
+        <FileNode Name="05-Multiple-CTE-query-definitions.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>05-Multiple-CTE-query-definitions.sql</FullPath>
+        </FileNode>
+        <FileNode Name="06-Defining-and-referencing-multiple-CTEs.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>06-Defining-and-referencing-multiple-CTEs.sql</FullPath>
+        </FileNode>
+        <FileNode Name="07-Multiple-references-to-the-same-CTE.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>07-Multiple-references-to-the-same-CTE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="08-CTEs-with-data-modification-statements.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>08-CTEs-with-data-modification-statements.sql</FullPath>
+        </FileNode>
+        <FileNode Name="09-CTEs-and-Views.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>09-CTEs-and-Views.sql</FullPath>
+        </FileNode>
+        <FileNode Name="10-CTEs-and-Stored-Procedures.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>10-CTEs-and-Stored-Procedures.sql</FullPath>
+        </FileNode>
+        <FileNode Name="11-CTEs-and-Triggers.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>11-CTEs-and-Triggers.sql</FullPath>
+        </FileNode>
+        <FileNode Name="12-CTEs-and-User-defined- Functions.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>12-CTEs-and-User-defined- Functions.sql</FullPath>
+        </FileNode>
+        <FileNode Name="13-Recursive-CTE-example.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>13-Recursive-CTE-example.sql</FullPath>
+        </FileNode>
+        <FileNode Name="14-Max-recursion-limitation.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>14-Max-recursion-limitation.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

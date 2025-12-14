@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Exercises">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="01.1-GenerateCarnivalDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>01.1-GenerateCarnivalDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="01.2-Carnival-Menu-with-Breadcrumbs.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>01.2-Carnival-Menu-with-Breadcrumbs.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02.1-GenerateWorldEventsDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>02.1-GenerateWorldEventsDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02.2-ThisAndThatBase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>02.2-ThisAndThatBase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02.3-ThisAndThatResult.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>02.3-ThisAndThatResult.sql</FullPath>
+        </FileNode>
+        <FileNode Name="03-CTE_Graphs.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>03-CTE_Graphs.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
