@@ -5,6 +5,8 @@ GO
 
 -- tempdb: table exists for the current connection
 
+DROP TABLE IF EXISTS dbo.ProductHierarchy 
+
 CREATE TABLE dbo.ProductHierarchy
 (
 	ProductHierarchyID	INT NOT NULL PRIMARY KEY CLUSTERED IDENTITY(1, 1),
