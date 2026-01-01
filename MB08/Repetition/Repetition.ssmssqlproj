@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Repetition">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="WindowFunctions-Wiederholungsfragen-Employee-A3.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WindowFunctions-Wiederholungsfragen-Employee-A3.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WindowFunctions-Wiederholungsfragen-netSales-A4.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WindowFunctions-Wiederholungsfragen-netSales-A4.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WindowFunctions-Wiederholungsfragen-Studenten.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WindowFunctions-Wiederholungsfragen-Studenten.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WindowFunctions-Wiederholungsfragen-Studenten-Note.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WindowFunctions-Wiederholungsfragen-Studenten-Note.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

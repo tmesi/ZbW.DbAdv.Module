@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Samples">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="Demo00-Motivation.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo00-Motivation.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo00-Setup.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo00-Setup.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo01-The-Stock-Market-Problem.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo01-The-Stock-Market-Problem.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo02-Performance.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo02-Performance.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo03-OVER-ORDERBY-PARTITION.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo03-OVER-ORDERBY-PARTITION.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo03-StockHistory.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo03-StockHistory.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo04-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo04-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo05-RealWorldSamples.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo05-RealWorldSamples.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo06-WindowAggregates.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo06-WindowAggregates.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo07-RealWorldSampl.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo07-RealWorldSampl.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo08-AccumulatingFunctions.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo08-AccumulatingFunctions.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo08-RunningTotal.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo08-RunningTotal.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo09-Framing.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo09-Framing.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo10-SubscriptionPuzzle.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo10-SubscriptionPuzzle.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo11-LAG-LEAD.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo11-LAG-LEAD.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo12-FIRST-VALUE-LAST-VALUE.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo12-FIRST-VALUE-LAST-VALUE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo13-RealWorldOffsetFunctions.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo13-RealWorldOffsetFunctions.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
