@@ -6,6 +6,12 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
+        <FileNode Name="Abfrage-Aufgaben-Northwind.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Abfrage-Aufgaben-Northwind.sql</FullPath>
+        </FileNode>
         <FileNode Name="WFExercise.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
