@@ -12,6 +12,12 @@
           <AssociatedConnUserName />
           <FullPath>Demo00-Motivation.sql</FullPath>
         </FileNode>
+        <FileNode Name="Demo00-Sample-GROUP-BY-Northwind.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo00-Sample-GROUP-BY-Northwind.sql</FullPath>
+        </FileNode>
         <FileNode Name="Demo00-Setup.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
