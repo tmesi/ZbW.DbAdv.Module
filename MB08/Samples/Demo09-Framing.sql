@@ -1,4 +1,4 @@
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 --Running average
@@ -18,18 +18,23 @@ SELECT	OrderMonth,
 FROM	Totals;
 
 --Calculate 3 month moving average
---WITH Totals AS (
---	SELECT MONTH(OrderDate) AS OrderMonth,
---		SUM(TotalDue) AS TotalSales
---	FROM Sales.SalesOrderHeader
---	WHERE OrderDate >= '2012-01-01' AND OrderDate < '2013-01-01'
---	GROUP BY MONTH(OrderDate)
---	)
---SELECT OrderMonth, TotalSales, 
---	AVG(TotalSales) OVER(ORDER BY OrderMonth
---		RANGE BETWEEN 2 PRECEDING AND CURRENT ROW) 
---			AS ThreeMonthRunningAverage
---FROM Totals;
+WITH Totals
+AS
+(
+	SELECT		MONTH(OrderDate)	AS OrderMonth,
+				SUM(TotalDue)		AS TotalSales
+	FROM		Sales.SalesOrderHeader
+	WHERE		OrderDate	>= '2012-01-01'
+	AND			OrderDate			< '2013-01-01'
+	GROUP BY	MONTH(OrderDate)
+)
+SELECT		OrderMonth,
+			TotalSales,
+			AVG(TotalSales) OVER (ORDER BY OrderMonth
+								ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+								) AS ThreeMonthRunningAverage
+FROM		Totals
+ORDER BY	OrderMonth;
 
 
 --Leave out months with less than 3 

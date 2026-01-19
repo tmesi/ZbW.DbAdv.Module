@@ -1,24 +1,24 @@
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 
 SELECT		S.Name			AS BikeSubCategory,
 			SUM(LineTotal)	AS BikeSales
-FROM		Sales.SalesOrderDetail			AS SOD
+FROM		Sales.SalesOrderDetail			AS sod
 			JOIN
-			Sales.SalesOrderHeader			AS SOH
-				ON SOD.SalesOrderID		= SOH.SalesOrderID
+			Sales.SalesOrderHeader			AS soh
+				ON sod.SalesOrderID		= soh.SalesOrderID
 
 			JOIN
 			Production.Product				AS P
-				ON P.ProductID		= SOD.ProductID
+				ON P.ProductID		= sod.ProductID
 
 			JOIN
 			Production.ProductSubcategory	AS S
 				ON S.ProductSubcategoryID = P.ProductSubcategoryID
 WHERE		S.Name LIKE '%Bikes%'
-AND			SOH.OrderDate	>= '2014-01-01'
-AND			SOH.OrderDate	< '2015-01-01'
+AND			soh.OrderDate	>= '2014-01-01'
+AND			soh.OrderDate	< '2015-01-01'
 GROUP BY	S.Name;
 
 
@@ -28,41 +28,41 @@ WITH GrandTotal
 AS
 (
 	SELECT	SUM(LineTotal)	AS TotalSales
-	FROM	Sales.SalesOrderDetail			AS SOD
+	FROM	Sales.SalesOrderDetail			AS sod
 			JOIN
-			Sales.SalesOrderHeader			AS SOH
-				ON SOD.SalesOrderID		= SOH.SalesOrderID
+			Sales.SalesOrderHeader			AS soh
+				ON sod.SalesOrderID		= soh.SalesOrderID
 
 			JOIN
 			Production.Product				AS P
-				ON P.ProductID		= SOD.ProductID
+				ON P.ProductID		= sod.ProductID
 
 			JOIN
 			Production.ProductSubcategory	AS S
 				ON S.ProductSubcategoryID = P.ProductSubcategoryID
 	WHERE	S.Name LIKE '%Bikes%'
-	AND		SOH.OrderDate	>= '2014-01-01'
-	AND		SOH.OrderDate	< '2015-01-01'
+	AND		soh.OrderDate	>= '2014-01-01'
+	AND		soh.OrderDate	< '2015-01-01'
 )
 SELECT		S.Name										AS BikeSubCategory,
 			SUM(LineTotal)								AS BikeSales,
 			FORMAT(SUM(LineTotal) / TotalSales, 'P') AS PercentOfSales
-FROM		Sales.SalesOrderDetail			AS SOD
+FROM		Sales.SalesOrderDetail			AS sod
 			JOIN
-			Sales.SalesOrderHeader			AS SOH
-				ON SOD.SalesOrderID = SOH.SalesOrderID
+			Sales.SalesOrderHeader			AS soh
+				ON sod.SalesOrderID = soh.SalesOrderID
 
 			JOIN
 			Production.Product				AS P
-				ON P.ProductID = SOD.ProductID
+				ON P.ProductID = sod.ProductID
 
 			JOIN
 			Production.ProductSubcategory	AS S
 				ON S.ProductSubcategoryID = P.ProductSubcategoryID
 			CROSS JOIN GrandTotal
 WHERE		S.Name LIKE '%Bikes%'
-AND			SOH.OrderDate	>= '2014-01-01'
-AND			SOH.OrderDate	< '2015-01-01'
+AND			soh.OrderDate	>= '2014-01-01'
+AND			soh.OrderDate	< '2015-01-01'
 GROUP BY	S.Name,
 			TotalSales;
 
@@ -72,21 +72,21 @@ GROUP BY	S.Name,
 --Step 1
 SELECT		S.Name			AS BikeSubCategory,
 			SUM(LineTotal)	AS BikeSales
-FROM		Sales.SalesOrderDetail			AS SOD
+FROM		Sales.SalesOrderDetail			AS sod
 			JOIN
-			Sales.SalesOrderHeader			AS SOH
-				ON SOD.SalesOrderID		= SOH.SalesOrderID
+			Sales.SalesOrderHeader			AS soh
+				ON sod.SalesOrderID		= soh.SalesOrderID
 
 			JOIN
 			Production.Product				AS P
-				ON P.ProductID		= SOD.ProductID
+				ON P.ProductID		= sod.ProductID
 
 			JOIN
 			Production.ProductSubcategory	AS S
 				ON S.ProductSubcategoryID = P.ProductSubcategoryID
 WHERE		S.Name LIKE '%Bikes%'
-AND			SOH.OrderDate	>= '2014-01-01'
-AND			SOH.OrderDate	< '2015-01-01'
+AND			soh.OrderDate	>= '2014-01-01'
+AND			soh.OrderDate	< '2015-01-01'
 GROUP BY	S.Name;
 
 
@@ -98,21 +98,21 @@ AS
 (
 	SELECT		S.Name			AS BikeSubCategory,
 				SUM(LineTotal)	AS BikeSales
-	FROM		Sales.SalesOrderDetail			AS SOD
+	FROM		Sales.SalesOrderDetail			AS sod
 				JOIN
-				Sales.SalesOrderHeader			AS SOH
-					ON SOD.SalesOrderID		= SOH.SalesOrderID
+				Sales.SalesOrderHeader			AS soh
+					ON sod.SalesOrderID		= soh.SalesOrderID
 
 				JOIN
 				Production.Product				AS P
-					ON P.ProductID		= SOD.ProductID
+					ON P.ProductID		= sod.ProductID
 
 				JOIN
 				Production.ProductSubcategory	AS S
 					ON S.ProductSubcategoryID = P.ProductSubcategoryID
 	WHERE		S.Name LIKE '%Bikes%'
-	AND			SOH.OrderDate	>= '2014-01-01'
-	AND			SOH.OrderDate	< '2015-01-01'
+	AND			soh.OrderDate	>= '2014-01-01'
+	AND			soh.OrderDate	< '2015-01-01'
 	GROUP BY	S.Name
 )
 SELECT	BikeSubCategory,
@@ -126,21 +126,21 @@ AS
 (
 	SELECT		S.Name			AS BikeSubCategory,
 				SUM(LineTotal)	AS BikeSales
-	FROM		Sales.SalesOrderDetail			AS SOD
+	FROM		Sales.SalesOrderDetail			AS sod
 				JOIN
-				Sales.SalesOrderHeader			AS SOH
-					ON SOD.SalesOrderID		= SOH.SalesOrderID
+				Sales.SalesOrderHeader			AS soh
+					ON sod.SalesOrderID		= soh.SalesOrderID
 
 				JOIN
 				Production.Product				AS P
-					ON P.ProductID		= SOD.ProductID
+					ON P.ProductID		= sod.ProductID
 
 				JOIN
 				Production.ProductSubcategory	AS S
 					ON S.ProductSubcategoryID = P.ProductSubcategoryID
 	WHERE		S.Name LIKE '%Bikes%'
-	AND			SOH.OrderDate	>= '2014-01-01'
-	AND			SOH.OrderDate	< '2015-01-01'
+	AND			soh.OrderDate	>= '2014-01-01'
+	AND			soh.OrderDate	< '2015-01-01'
 	GROUP BY	S.Name
 )
 SELECT	BikeSubCategory,

@@ -4,13 +4,13 @@ GO
 
 --The GAPS problem
 SELECT	ID
-FROM	Islands;
+FROM	dbo.Islands;
 
 --Step 1: Pull next value with LEAD
 SELECT	ID									AS ThisValue,
 		LEAD(ID) OVER (ORDER BY ID) AS NextValue,
 		ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-FROM	Islands;
+FROM	dbo.Islands;
 
 
 --Step 2: Keep where the difference is not equal to -1
@@ -20,7 +20,7 @@ AS
 	SELECT	ID									AS ThisValue,
 			LEAD(ID) OVER (ORDER BY ID) AS NextValue,
 			ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-	FROM	Islands
+	FROM	dbo.Islands
 )
 SELECT	ThisValue,
 		NextValue
@@ -34,7 +34,7 @@ AS
 	SELECT	ID									AS ThisValue,
 			LEAD(ID) OVER (ORDER BY ID) AS NextValue,
 			ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-	FROM	Islands
+	FROM	dbo.Islands
 )
 SELECT	ThisValue + 1 AS StartOfGap,
 		NextValue - 1 AS EndOfGap
@@ -48,7 +48,7 @@ WITH Step1
 AS
 (
 	SELECT		OrderDate
-	FROM		Islands
+	FROM		dbo.Islands
 	GROUP BY	OrderDate
 ),
 	Step2

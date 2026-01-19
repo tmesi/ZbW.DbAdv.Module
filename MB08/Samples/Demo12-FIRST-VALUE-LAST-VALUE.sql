@@ -1,4 +1,4 @@
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 --FIRST_VALUE and LAST_VALUE, Default frames

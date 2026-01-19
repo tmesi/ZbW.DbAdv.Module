@@ -3,7 +3,7 @@ GO
 
 --Step 1, view the data 
 SELECT	*
-FROM	Subscription;
+FROM	dbo.Subscription;
 
 
 
@@ -11,12 +11,12 @@ FROM	Subscription;
 --Step 2, counts based on Dates
 SELECT		COUNT(*)	AS NewSubCount,
 			DateJoined
-FROM		Subscription
+FROM		dbo.Subscription
 GROUP BY	DateJoined;
 
 SELECT		COUNT(*)	AS CancellationCount,
 			DateLeft
-FROM		Subscription
+FROM		dbo.Subscription
 GROUP BY	DateLeft;
 
 --Step 3 join these two queries
@@ -25,7 +25,7 @@ AS
 (
 	SELECT		COUNT(*)	AS NewSubCount,
 				DateJoined
-	FROM		Subscription
+	FROM		dbo.Subscription
 	GROUP BY	DateJoined
 ),
 	Cancelled
@@ -33,7 +33,7 @@ AS
 (
 	SELECT		COUNT(*)	AS CancellationCount,
 				DateLeft
-	FROM		Subscription
+	FROM		dbo.Subscription
 	GROUP BY	DateLeft
 )
 SELECT	DateJoined,
@@ -50,7 +50,7 @@ AS
 (
 	SELECT		COUNT(*)	AS NewSubCount,
 				DateJoined
-	FROM		Subscription
+	FROM		dbo.Subscription
 	GROUP BY	DateJoined
 ),
 	Cancelled
@@ -58,7 +58,7 @@ AS
 (
 	SELECT		COUNT(*)	AS CancellationCount,
 				DateLeft
-	FROM		Subscription
+	FROM		dbo.Subscription
 	GROUP BY	DateLeft
 )
 SELECT	DateJoined,

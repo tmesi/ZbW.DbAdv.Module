@@ -1,8 +1,8 @@
 USE PL_SampleData;
 GO
---Look for Islands in ID
+--Look for dbo.Islands in ID
 SELECT	ID
-FROM	Islands;
+FROM	dbo.Islands;
 
 
 
@@ -15,7 +15,7 @@ FROM	Islands;
 --Step 1: add a row_number()
 SELECT	ID,
 		ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
-FROM	Islands;
+FROM	dbo.Islands;
 
 
 
@@ -25,7 +25,7 @@ FROM	Islands;
 SELECT	ID,
 		ROW_NUMBER() OVER (ORDER BY ID) AS RowNum,
 		ID - ROW_NUMBER() OVER (ORDER BY ID) AS Diff
-FROM	Islands;
+FROM	dbo.Islands;
 
 
 
@@ -38,7 +38,7 @@ AS
 	SELECT	ID,
 			ROW_NUMBER() OVER (ORDER BY ID) AS RowNum,
 			ID - ROW_NUMBER() OVER (ORDER BY ID) AS Diff
-	FROM	Islands
+	FROM	dbo.Islands
 )
 SELECT		MIN(ID) AS BeginningOfIsland,
 			MAX(ID) AS EndOfIsland
@@ -49,26 +49,26 @@ GROUP BY	Diff;
 
 
 
---Find the islands in Dates
+--Find the dbo.Islands in Dates
 SELECT		OrderDate
-FROM		Islands
+FROM		dbo.Islands
 ORDER BY	OrderDate;
 
 
 --Step 1: Add row_number
 SELECT	OrderDate,
 		ROW_NUMBER() OVER (ORDER BY OrderDate) AS RowNum
-FROM	Islands;
+FROM	dbo.Islands;
 
 --Try RANK
 SELECT	OrderDate,
 		RANK() OVER (ORDER BY OrderDate) AS Rnk
-FROM	Islands;
+FROM	dbo.Islands;
 
 --Try DENSE_RANK
 SELECT	OrderDate,
 		DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-FROM	Islands;
+FROM	dbo.Islands;
 
 --Step 2: Add to a base date
 WITH Level1
@@ -76,7 +76,7 @@ AS
 (
 	SELECT	OrderDate,
 			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	Islands
+	FROM	dbo.Islands
 )
 SELECT	OrderDate,
 		DATEADD(d, DenseRnk, '2014-12-31') AS NewDate
@@ -88,7 +88,7 @@ AS
 (
 	SELECT	OrderDate,
 			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	Islands
+	FROM	dbo.Islands
 ),
 	Level2
 AS
@@ -109,7 +109,7 @@ AS
 (
 	SELECT	OrderDate,
 			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	Islands
+	FROM	dbo.Islands
 ),
 	Level2
 AS
@@ -125,7 +125,7 @@ AS
 			DATEDIFF(d, NewDate, OrderDate) DIFF
 	FROM	Level2
 )
-SELECT		MIN(OrderDate)	AS IslandStart,
+SELECT		MIN(OrderDate)	AS Islandstart,
 			MAX(OrderDate)	AS IslandEnd
 FROM		Level3
 GROUP BY	DIFF;
@@ -136,9 +136,9 @@ AS
 (
 	SELECT	OrderDate,
 			DATEDIFF(d, DATEADD(d, DENSE_RANK() OVER (ORDER BY OrderDate), '2014-12-31'), OrderDate) AS DIFF
-	FROM	Islands
+	FROM	dbo.Islands
 )
-SELECT		MIN(OrderDate)	AS IslandStart,
+SELECT		MIN(OrderDate)	AS Islandstart,
 			MAX(OrderDate)	AS IslandEnd
 FROM		Dates
 GROUP BY	DIFF;
