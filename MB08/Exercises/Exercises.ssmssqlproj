@@ -12,6 +12,12 @@
           <AssociatedConnUserName />
           <FullPath>Abfrage-Aufgaben-Northwind.sql</FullPath>
         </FileNode>
+        <FileNode Name="Abfrage-Aufgaben-Northwind-Loesungen.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Abfrage-Aufgaben-Northwind-Loesungen.sql</FullPath>
+        </FileNode>
         <FileNode Name="WFExercise.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
