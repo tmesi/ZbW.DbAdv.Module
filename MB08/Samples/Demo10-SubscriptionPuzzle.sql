@@ -3,74 +3,72 @@ GO
 
 --Step 1, view the data 
 SELECT	*
-FROM	dbo.Subscription;
+FROM	dbo.Subscription	AS s
 
 
 
 
 --Step 2, counts based on Dates
-SELECT		COUNT(*)	AS NewSubCount,
-			DateJoined
-FROM		dbo.Subscription
-GROUP BY	DateJoined;
+SELECT		NewSubCount			= COUNT(*),
+			DateJoined			= s.DateJoined
+FROM		dbo.Subscription	AS s
+GROUP BY	s.DateJoined;
 
-SELECT		COUNT(*)	AS CancellationCount,
-			DateLeft
-FROM		dbo.Subscription
-GROUP BY	DateLeft;
+SELECT		CancellationCount	= COUNT(*),
+			DateLeft			= s.DateLeft
+FROM		dbo.Subscription	AS s
+GROUP BY	s.DateLeft;
 
 --Step 3 join these two queries
 WITH Joined
 AS
 (
-	SELECT		COUNT(*)	AS NewSubCount,
-				DateJoined
-	FROM		dbo.Subscription
-	GROUP BY	DateJoined
+	SELECT		NewSubCount			= COUNT(*),
+				DateJoined			= s.DateJoined
+	FROM		dbo.Subscription	AS s
+	GROUP BY	s.DateJoined
 ),
 	Cancelled
 AS
 (
-	SELECT		COUNT(*)	AS CancellationCount,
-				DateLeft
-	FROM		dbo.Subscription
-	GROUP BY	DateLeft
+	SELECT		CancellationCount	= COUNT(*),
+				DateLeft			= s.DateLeft
+	FROM		dbo.Subscription	AS s
+	GROUP BY	s.DateLeft
 )
-SELECT	DateJoined,
-		NewSubCount,
-		CancellationCount
-FROM	Joined
+SELECT	DateJoined			= j.DateJoined,
+		NewSubCount			= j.NewSubCount,
+		CancellationCount	= c.CancellationCount
+FROM	Joined				AS j
 		LEFT JOIN
-		Cancelled
-			ON Joined.DateJoined = Cancelled.DateLeft;
+		Cancelled			AS c
+			ON j.DateJoined	= c.DateLeft;
 
 --Step 4, running total
 WITH Joined
 AS
 (
-	SELECT		COUNT(*)	AS NewSubCount,
-				DateJoined
-	FROM		dbo.Subscription
-	GROUP BY	DateJoined
+	SELECT		NewSubCount			= COUNT(*),
+				DateJoined			= s.DateJoined
+	FROM		dbo.Subscription	AS s
+	GROUP BY	s.DateJoined
 ),
 	Cancelled
 AS
 (
-	SELECT		COUNT(*)	AS CancellationCount,
-				DateLeft
-	FROM		dbo.Subscription
-	GROUP BY	DateLeft
+	SELECT		CancellationCount	= COUNT(*),
+				DateLeft			= s.DateLeft
+	FROM		dbo.Subscription	AS s
+	GROUP BY	s.DateLeft
 )
-SELECT	DateJoined,
-		NewSubCount,
-		CancellationCount,
-		SUM(NewSubCount - ISNULL(CancellationCount, 0)) OVER (ORDER BY DateJoined
-															ROWS UNBOUNDED PRECEDING
-															) AS CurrentSubscribers
-FROM	Joined
+SELECT	DateJoined			= j.DateJoined,
+		NewSubCount			= j.NewSubCount,
+		CancellationCount	= c.CancellationCount,
+		CurrentSubscribers	= SUM(NewSubCount - ISNULL(CancellationCount, 0)) OVER (ORDER BY DateJoined ROWS UNBOUNDED PRECEDING)
+FROM	Joined				AS j
 		LEFT JOIN
-		Cancelled
-			ON Joined.DateJoined = Cancelled.DateLeft;
+		Cancelled			AS c
+			ON j.DateJoined	= c.DateLeft;
 
 
 

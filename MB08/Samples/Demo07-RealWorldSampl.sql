@@ -2,24 +2,22 @@ USE AdventureWorks2022;
 GO
 
 
-SELECT		S.Name			AS BikeSubCategory,
-			SUM(LineTotal)	AS BikeSales
+SELECT		BikeSubCategory					= s.[Name],
+			BikeSales						= SUM(sod.LineTotal)
 FROM		Sales.SalesOrderDetail			AS sod
-			JOIN
+			INNER JOIN
 			Sales.SalesOrderHeader			AS soh
-				ON sod.SalesOrderID		= soh.SalesOrderID
-
-			JOIN
-			Production.Product				AS P
-				ON P.ProductID		= sod.ProductID
-
-			JOIN
-			Production.ProductSubcategory	AS S
-				ON S.ProductSubcategoryID = P.ProductSubcategoryID
-WHERE		S.Name LIKE '%Bikes%'
-AND			soh.OrderDate	>= '2014-01-01'
-AND			soh.OrderDate	< '2015-01-01'
-GROUP BY	S.Name;
+				ON sod.SalesOrderID			= soh.SalesOrderID
+			INNER JOIN
+			Production.[Product]			AS p
+				ON P.ProductID				= sod.ProductID
+			INNER JOIN
+			Production.ProductSubcategory	AS s
+				ON S.ProductSubcategoryID	= P.ProductSubcategoryID
+WHERE		s.[Name]						LIKE '%Bikes%'
+AND			soh.OrderDate					>= '2014-01-01'
+AND			soh.OrderDate					< '2015-01-01'
+GROUP BY	s.[Name];
 
 
 --One traditional way to solve
@@ -27,67 +25,62 @@ GROUP BY	S.Name;
 WITH GrandTotal
 AS
 (
-	SELECT	SUM(LineTotal)	AS TotalSales
+	SELECT	TotalSales						= SUM(sod.LineTotal)
 	FROM	Sales.SalesOrderDetail			AS sod
-			JOIN
+			INNER JOIN
 			Sales.SalesOrderHeader			AS soh
-				ON sod.SalesOrderID		= soh.SalesOrderID
-
+				ON sod.SalesOrderID			= soh.SalesOrderID
+			INNER JOIN
+			Production.[Product]			AS p
+				ON P.ProductID				= sod.ProductID
 			JOIN
-			Production.Product				AS P
-				ON P.ProductID		= sod.ProductID
-
-			JOIN
-			Production.ProductSubcategory	AS S
-				ON S.ProductSubcategoryID = P.ProductSubcategoryID
-	WHERE	S.Name LIKE '%Bikes%'
-	AND		soh.OrderDate	>= '2014-01-01'
-	AND		soh.OrderDate	< '2015-01-01'
+			Production.ProductSubcategory	AS s
+				ON S.ProductSubcategoryID	= P.ProductSubcategoryID
+	WHERE	s.[Name]						LIKE '%Bikes%'
+	AND		soh.OrderDate					>= '2014-01-01'
+	AND		soh.OrderDate					< '2015-01-01'
 )
-SELECT		S.Name										AS BikeSubCategory,
-			SUM(LineTotal)								AS BikeSales,
-			FORMAT(SUM(LineTotal) / TotalSales, 'P') AS PercentOfSales
+SELECT		BikeSubCategory					= s.[Name],
+			BikeSales						= SUM(sod.LineTotal),
+			PercentOfSales					= FORMAT(SUM(sod.LineTotal) / g.TotalSales, 'P')
 FROM		Sales.SalesOrderDetail			AS sod
-			JOIN
+			INNER JOIN
 			Sales.SalesOrderHeader			AS soh
 				ON sod.SalesOrderID = soh.SalesOrderID
-
-			JOIN
-			Production.Product				AS P
+			INNER JOIN
+			Production.Product				AS p
 				ON P.ProductID = sod.ProductID
-
-			JOIN
-			Production.ProductSubcategory	AS S
-				ON S.ProductSubcategoryID = P.ProductSubcategoryID
-			CROSS JOIN GrandTotal
-WHERE		S.Name LIKE '%Bikes%'
+			INNER JOIN
+			Production.ProductSubcategory	AS s
+				ON s.ProductSubcategoryID = p.ProductSubcategoryID
+			CROSS JOIN
+			GrandTotal						AS g
+WHERE		s.[Name] LIKE '%Bikes%'
 AND			soh.OrderDate	>= '2014-01-01'
 AND			soh.OrderDate	< '2015-01-01'
-GROUP BY	S.Name,
-			TotalSales;
+GROUP BY	s.[Name],
+			g.TotalSales;
 
 
 
 --Percent of sales for each type of bike
 --Step 1
-SELECT		S.Name			AS BikeSubCategory,
-			SUM(LineTotal)	AS BikeSales
+SELECT		BikeSubCategory					= s.[Name],
+			BikeSales						= SUM(sod.LineTotal)
 FROM		Sales.SalesOrderDetail			AS sod
-			JOIN
+			INNER JOIN
 			Sales.SalesOrderHeader			AS soh
-				ON sod.SalesOrderID		= soh.SalesOrderID
-
-			JOIN
-			Production.Product				AS P
-				ON P.ProductID		= sod.ProductID
-
-			JOIN
-			Production.ProductSubcategory	AS S
-				ON S.ProductSubcategoryID = P.ProductSubcategoryID
-WHERE		S.Name LIKE '%Bikes%'
-AND			soh.OrderDate	>= '2014-01-01'
-AND			soh.OrderDate	< '2015-01-01'
-GROUP BY	S.Name;
+				ON sod.SalesOrderID			= soh.SalesOrderID
+			INNER JOIN
+			Production.[Product]			AS p
+				ON P.ProductID				= sod.ProductID
+			INNER JOIN
+			Production.ProductSubcategory	AS s
+				ON S.ProductSubcategoryID	= P.ProductSubcategoryID
+WHERE		s.[Name]						LIKE '%Bikes%'
+AND			soh.OrderDate					>= '2014-01-01'
+AND			soh.OrderDate					< '2015-01-01'
+GROUP BY	s.[Name];
 
 
 
@@ -96,58 +89,54 @@ GROUP BY	S.Name;
 WITH Sales
 AS
 (
-	SELECT		S.Name			AS BikeSubCategory,
-				SUM(LineTotal)	AS BikeSales
+	SELECT		BikeSubCategory					= s.[Name],
+				BikeSales						= SUM(sod.LineTotal)
 	FROM		Sales.SalesOrderDetail			AS sod
-				JOIN
+				INNER JOIN
 				Sales.SalesOrderHeader			AS soh
-					ON sod.SalesOrderID		= soh.SalesOrderID
-
-				JOIN
-				Production.Product				AS P
-					ON P.ProductID		= sod.ProductID
-
-				JOIN
-				Production.ProductSubcategory	AS S
-					ON S.ProductSubcategoryID = P.ProductSubcategoryID
-	WHERE		S.Name LIKE '%Bikes%'
-	AND			soh.OrderDate	>= '2014-01-01'
-	AND			soh.OrderDate	< '2015-01-01'
-	GROUP BY	S.Name
+					ON sod.SalesOrderID			= soh.SalesOrderID
+				INNER JOIN
+				Production.[Product]			AS p
+					ON P.ProductID				= sod.ProductID
+				INNER JOIN
+				Production.ProductSubcategory	AS s
+					ON S.ProductSubcategoryID	= P.ProductSubcategoryID
+	WHERE		s.[Name]						LIKE '%Bikes%'
+	AND			soh.OrderDate					>= '2014-01-01'
+	AND			soh.OrderDate					< '2015-01-01'
+	GROUP BY	s.[Name]
 )
-SELECT	BikeSubCategory,
-		BikeSales,
-		SUM(BikeSales) OVER () AS TotalSales
-FROM	Sales;
+SELECT	BikeSubCategory		= s.BikeSubCategory,
+		BikeSales			= s.BikeSales,
+		TotalSales			= SUM(s.BikeSales) OVER ()
+FROM	Sales				AS s;
 
 --Step 3: Division
 WITH Sales
 AS
 (
-	SELECT		S.Name			AS BikeSubCategory,
-				SUM(LineTotal)	AS BikeSales
+	SELECT		BikeSubCategory					= s.[Name],
+				BikeSales						= SUM(sod.LineTotal)
 	FROM		Sales.SalesOrderDetail			AS sod
-				JOIN
+				INNER JOIN
 				Sales.SalesOrderHeader			AS soh
-					ON sod.SalesOrderID		= soh.SalesOrderID
-
-				JOIN
-				Production.Product				AS P
-					ON P.ProductID		= sod.ProductID
-
-				JOIN
-				Production.ProductSubcategory	AS S
-					ON S.ProductSubcategoryID = P.ProductSubcategoryID
-	WHERE		S.Name LIKE '%Bikes%'
-	AND			soh.OrderDate	>= '2014-01-01'
-	AND			soh.OrderDate	< '2015-01-01'
-	GROUP BY	S.Name
+					ON sod.SalesOrderID			= soh.SalesOrderID
+				INNER JOIN
+				Production.[Product]			AS p
+					ON P.ProductID				= sod.ProductID
+				INNER JOIN
+				Production.ProductSubcategory	AS s
+					ON S.ProductSubcategoryID	= P.ProductSubcategoryID
+	WHERE		s.[Name]						LIKE '%Bikes%'
+	AND			soh.OrderDate					>= '2014-01-01'
+	AND			soh.OrderDate					< '2015-01-01'
+	GROUP BY	s.[Name]
 )
-SELECT	BikeSubCategory,
-		BikeSales,
+SELECT	BikeSubCategory		= s.BikeSubCategory,
+		BikeSales			= s.BikeSales,
 		--SUM(BikeSales) OVER() AS TotalSales,
-		FORMAT(BikeSales / SUM(BikeSales) OVER (), 'P') AS PercentOfSales
-FROM	Sales;
+		PercentOfSales		= FORMAT(BikeSales / SUM(BikeSales) OVER (), 'P')
+FROM	Sales				AS s;
 
 
 

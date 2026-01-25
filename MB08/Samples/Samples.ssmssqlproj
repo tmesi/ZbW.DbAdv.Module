@@ -24,11 +24,17 @@
           <AssociatedConnUserName />
           <FullPath>Demo00-Setup.sql</FullPath>
         </FileNode>
-        <FileNode Name="Demo01-The-Stock-Market-Problem.sql">
+        <FileNode Name="Demo01.0-The-Stock-Market-Problem.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>Demo01-The-Stock-Market-Problem.sql</FullPath>
+          <FullPath>Demo01.0-The-Stock-Market-Problem.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo01.1-The-Stock-Market-Problem.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo01.1-The-Stock-Market-Problem.sql</FullPath>
         </FileNode>
         <FileNode Name="Demo02-Performance.sql">
           <AssociatedConnectionMoniker />
@@ -48,11 +54,17 @@
           <AssociatedConnUserName />
           <FullPath>Demo03-StockHistory.sql</FullPath>
         </FileNode>
-        <FileNode Name="Demo04-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql">
+        <FileNode Name="Demo04.0-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>Demo04-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql</FullPath>
+          <FullPath>Demo04.0-ROW-NUMBER-RANK-DENSE-RANK-NTILE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Demo04.1-ROW-NUMBER-First-N.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Demo04.1-ROW-NUMBER-First-N.sql</FullPath>
         </FileNode>
         <FileNode Name="Demo05-RealWorldSamples.sql">
           <AssociatedConnectionMoniker />

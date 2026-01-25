@@ -2,112 +2,88 @@ USE AdventureWorks2022;
 GO
 
 --LAG
-SELECT	CustomerID,
-		SalesOrderID,
-		TotalDue,
-		LAG(TotalDue) OVER (PARTITION BY CustomerID
-							ORDER BY SalesOrderID
-						)		AS PrevTotalDue,
-		LAG(SalesOrderID) OVER (PARTITION BY CustomerID
-								ORDER BY SalesOrderID
-							)	AS PrevOrderID
-FROM	Sales.SalesOrderHeader;
-
+SELECT	CustomerID				= soh.CustomerID,
+		SalesOrderID			= soh.SalesOrderID,
+		TotalDue				= soh.TotalDue,
+		PrevTotalDue			= LAG(soh.TotalDue)		OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID),
+		PrevOrderID				= LAG(soh.SalesOrderID) OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID) 
+FROM	Sales.SalesOrderHeader	AS soh;
+	
 --LEAD
-SELECT	CustomerID,
-		SalesOrderID,
-		TotalDue,
-		LEAD(TotalDue) OVER (PARTITION BY CustomerID
-							ORDER BY SalesOrderID
-							)		AS NextTotalDue,
-		LEAD(SalesOrderID) OVER (PARTITION BY CustomerID
-								ORDER BY SalesOrderID
-								)	AS NextOrderID
-FROM	Sales.SalesOrderHeader;
+SELECT	CustomerID				= soh.CustomerID,
+		SalesOrderID			= soh.SalesOrderID,
+		TotalDue				= soh.TotalDue,
+		NextTotalDue			= LEAD(TotalDue)		OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID),
+		NextOrderID				= LEAD(SalesOrderID)	OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID)
+FROM	Sales.SalesOrderHeader	AS soh;
 
 --Nested in expression
-SELECT	CustomerID,
-		SalesOrderID,
-		CAST(OrderDate AS DATE) AS OrderDate,
-		DATEDIFF(	d,
-					LAG(OrderDate) OVER (PARTITION BY CustomerID
-										ORDER BY SalesOrderID
-										),
-					OrderDate
-				)				AS DaysSincePrevOrder,
-		DATEDIFF(	d,
-					OrderDate,
-					LEAD(OrderDate) OVER (PARTITION BY CustomerID
-										ORDER BY SalesOrderID
-										)
-				)				AS DaysTillNextOrder
-FROM	Sales.SalesOrderHeader;
+SELECT	CustomerID				= soh.CustomerID,
+		SalesOrderID			= soh.SalesOrderID,
+		OrderDate				= CAST(soh.OrderDate AS DATE),
+		DaysSincePrevOrder		= DATEDIFF(d, LAG(soh.OrderDate) OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID), soh.OrderDate),
+		DaysTillNextOrder		= DATEDIFF(d, soh.OrderDate, LEAD(soh.OrderDate) OVER (PARTITION BY soh.CustomerID ORDER BY soh.SalesOrderID))
+FROM	Sales.SalesOrderHeader	AS soh;
 
 
 --Compare sales by year
 WITH Sales
 AS
 (
-	SELECT		YEAR(OrderDate)		AS OrderYear,
-				MONTH(OrderDate)	AS OrderMonth,
-				SUM(TotalDue)		AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate)
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderMonth				= MONTH(soh.OrderDate),
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)
 )
-SELECT		OrderYear,
-			OrderMonth,
-			TotalSales,
-			LAG(TotalSales, 12) OVER (ORDER BY OrderYear,
-											OrderMonth
-									) AS PrevYearsSales
-FROM		Sales
-ORDER BY	OrderYear,
-			OrderMonth;
+SELECT		OrderYear		= s.OrderYear,
+			OrderMonth		= s.OrderMonth,
+			TotalSales		= s.TotalSales,
+			PrevYearsSales	= LAG(s.TotalSales, 12) OVER (ORDER BY s.OrderYear, s.OrderMonth)
+FROM		Sales			AS s
+ORDER BY	s.OrderYear,
+			s.OrderMonth;
 
 
 --Replace NULL
 WITH Sales
 AS
 (
-	SELECT		YEAR(OrderDate)		AS OrderYear,
-				MONTH(OrderDate)	AS OrderMonth,
-				SUM(TotalDue)		AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate)
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderMonth				= MONTH(soh.OrderDate),
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)
 )
-SELECT		OrderYear,
-			OrderMonth,
-			TotalSales,
-			LAG(TotalSales, 12, 0) OVER (ORDER BY OrderYear,
-												OrderMonth
-										)	AS PrevYearsSales
-FROM		Sales
-ORDER BY	OrderYear,
-			OrderMonth;
+SELECT		OrderYear		= s.OrderYear,
+			OrderMonth		= s.OrderMonth,
+			TotalSales		= s.TotalSales,
+			PrevYearsSales	= LAG(TotalSales, 12, 0)  OVER (ORDER BY s.OrderYear, s.OrderMonth)
+FROM		Sales			AS s
+ORDER BY	s.OrderYear,
+			s.OrderMonth;
 
 --Filter NULL
 WITH Sales
 AS
 (
-	SELECT		YEAR(OrderDate)		AS OrderYear,
-				MONTH(OrderDate)	AS OrderMonth,
-				SUM(TotalDue)		AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate)
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderMonth				= MONTH(soh.OrderDate),
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)
 ),
 	CompareYears
 AS
 (
-	SELECT	OrderYear,
-			OrderMonth,
-			TotalSales,
-			LAG(TotalSales, 12) OVER (ORDER BY OrderYear,
-											OrderMonth
-									) AS PrevYearsSales
-	FROM	Sales
+	SELECT		OrderYear		= s.OrderYear,
+				OrderMonth		= s.OrderMonth,
+				TotalSales		= s.TotalSales,
+				PrevYearsSales	= LAG(s.TotalSales, 12) OVER (ORDER BY s.OrderYear, s.OrderMonth)
+	FROM		Sales			AS s
 )
 SELECT		OrderYear,
 			OrderMonth,

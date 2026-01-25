@@ -15,10 +15,25 @@ GO
 
 SELECT		TickerSymbol,
 			TradeDate,
-			ClosePrice
+			ClosePrice,
+			ROW_NUMBER() OVER(ORDER BY TickerSymbol)
 FROM		dbo.StockHistory
 ORDER BY	TickerSymbol,
 			TradeDate;
+/*
+SELECT		TickerSymbol,
+			TradeDate,
+			ClosePrice
+FROM		dbo.StockHistory
+WHERE		TickerSymbol LIKE 'X1'
+ORDER BY	TickerSymbol,
+			TradeDate;
+*/
+
+
+--SELECT 62.13-62.61
+
+
 
 SELECT		O.TickerSymbol,
 			O.TradeDate,
@@ -32,7 +47,7 @@ SELECT		O.TickerSymbol,
 							ORDER BY	I.TradeDate
 						)	AS Change
 FROM		dbo.StockHistory AS O
-
+--WHERE		o.TickerSymbol LIKE 'X1'
 ORDER BY	O.TickerSymbol,
 			O.TradeDate;
 

@@ -1,97 +1,95 @@
 USE AdventureWorks2022;
 GO
 
-SELECT	ProductID,
-		name,
-		FinishedGoodsFlag
-FROM	Production.Product;
+SELECT	ProductID				= p.ProductID,
+		[name]					= p.[name],
+		FinishedGoodsFlag		= p.FinishedGoodsFlag
+FROM	Production.[Product]	AS p;
 
 
 --Need a list of products and average list price
-SELECT	ProductID,
-		name,
-		ListPrice,
-		COUNT(*)		CountOfProduct,
-		AVG(ListPrice)	AS AvgListPrice
-FROM	Production.Product
-WHERE	FinishedGoodsFlag = 1;
+SELECT	ProductID				= p.ProductID,
+		[name]					= p.[name],
+		ListPrice				= p.ListPrice,
+		CountOfProduct			= COUNT(*),
+		AvgListPrice			= AVG(p.ListPrice)
+FROM	Production.[Product]	AS p
+WHERE	FinishedGoodsFlag		= 1;
 
 --Add a group by
-SELECT		ProductID,
-			name,
-			ListPrice,
-			COUNT(*)		CountOfProduct,
-			AVG(ListPrice)	AS AvgListPrice
-FROM		Production.Product
-WHERE		FinishedGoodsFlag = 1
+SELECT	ProductID				= p.ProductID,
+		[name]					= p.[name],
+		ListPrice				= p.ListPrice,
+		CountOfProduct			= COUNT(*),
+		AvgListPrice			= AVG(p.ListPrice)
+FROM	Production.[Product]	AS p
+WHERE	FinishedGoodsFlag		= 1
 GROUP BY	ProductID,
-			name,
+			[name],
 			ListPrice;
 
 --Add OVER clause instead
-SELECT	ProductID,
-		name,
-		ListPrice,
-		COUNT(*) OVER ()	CountOfProduct,
-		AVG(ListPrice) OVER () AS AvgListPrice
-FROM	Production.Product
-WHERE	FinishedGoodsFlag = 1;
+SELECT	ProductID				= p.ProductID,
+		[name]					= p.[name],
+		ListPrice				= p.ListPrice,
+		CountOfProduct			= COUNT(*) OVER (),
+		AvgListPrice			= AVG(ListPrice) OVER ()
+FROM	Production.[Product]	AS p
+WHERE	FinishedGoodsFlag		= 1
 
 --Need subtotals by category
 --Join to get categories
-SELECT	P.ProductID,
-		P.name					AS ProductName,
-		C.Name					AS CategoryName,
-		ListPrice,
-		COUNT(*) OVER ()	CountOfProduct,
-		AVG(ListPrice) OVER () AS AvgListPrice
-FROM	Production.Product				AS P
-		JOIN
-		Production.ProductSubcategory	AS S
-			ON S.ProductSubcategoryID = P.ProductSubcategoryID
-
-		JOIN
-		Production.ProductCategory		AS C
-			ON C.ProductCategoryID = S.ProductCategoryID
-WHERE	FinishedGoodsFlag = 1;
+SELECT	ProductID						= p.ProductID,
+		ProductName						= p.[name],
+		CategoryName					= c.[name],
+		ListPrice						= p.ListPrice,
+		CountOfProduct					= COUNT(*) OVER (),
+		AvgListPrice					= AVG(p.ListPrice) OVER ()
+FROM	Production.[Product]			AS p
+		INNER JOIN
+		Production.ProductSubcategory	AS s
+			ON	s.ProductSubcategoryID	= p.ProductSubcategoryID
+		INNER JOIN
+		Production.ProductCategory		AS c
+			ON	c.ProductCategoryID		= s.ProductCategoryID
+WHERE	p.FinishedGoodsFlag				= 1;
 
 
 
 --Partition by ProductCategoryID
-SELECT	P.ProductID,
-		P.name													AS ProductName,
-		C.Name													AS CategoryName,
-		ListPrice,
-		COUNT(*) OVER (PARTITION BY C.ProductCategoryID) CountOfProduct,
-		AVG(ListPrice) OVER (PARTITION BY C.ProductCategoryID) AS AvgListPrice
-FROM	Production.Product				AS P
-		JOIN
-		Production.ProductSubcategory	AS S
-			ON S.ProductSubcategoryID = P.ProductSubcategoryID
+SELECT	ProductID						= p.ProductID,
+		ProductName						= p.[name],
+		CategoryName					= c.[name],
+		ListPrice						= p.ListPrice,
+		CountOfProduct					= COUNT(*) OVER (PARTITION BY C.ProductCategoryID),
+		AvgListPrice					= AVG(ListPrice) OVER (PARTITION BY C.ProductCategoryID)
+FROM	Production.[Product]			AS p
+		INNER JOIN
+		Production.ProductSubcategory	AS s
+			ON	s.ProductSubcategoryID	= p.ProductSubcategoryID
+		INNER JOIN
+		Production.ProductCategory		AS c
+			ON	c.ProductCategoryID		= s.ProductCategoryID
+WHERE	p.FinishedGoodsFlag				= 1;
 
-		JOIN
-		Production.ProductCategory		AS C
-			ON C.ProductCategoryID = S.ProductCategoryID
-WHERE	FinishedGoodsFlag = 1;
 
 
 --Mix windows
-SELECT	P.ProductID,
-		P.name													AS ProductName,
-		C.Name													AS CategoryName,
-		ListPrice,
-		COUNT(*) OVER (PARTITION BY C.ProductCategoryID) CountOfProduct,
-		AVG(ListPrice) OVER (PARTITION BY C.ProductCategoryID) AS AvgListPrice,
-		MIN(ListPrice) OVER ()								AS MinListPrice,
-		MAX(ListPrice) OVER ()								AS MaxListPrice
-FROM	Production.Product				AS P
-		JOIN
-		Production.ProductSubcategory	AS S
-			ON S.ProductSubcategoryID = P.ProductSubcategoryID
-
-		JOIN
-		Production.ProductCategory		AS C
-			ON C.ProductCategoryID = S.ProductCategoryID
-WHERE	FinishedGoodsFlag = 1;
+SELECT	ProductID						= p.ProductID,
+		ProductName						= p.[name],
+		CategoryName					= c.[name],
+		ListPrice						= p.ListPrice,
+		CountOfProduct					= COUNT(*) OVER (PARTITION BY C.ProductCategoryID),
+		AvgListPrice					= AVG(ListPrice) OVER (PARTITION BY C.ProductCategoryID),
+		MinListPrice					= MIN(ListPrice) OVER (),
+		MaxListPrice					= MAX(ListPrice) OVER ()
+FROM	Production.[Product]			AS p
+		INNER JOIN
+		Production.ProductSubcategory	AS s
+			ON	s.ProductSubcategoryID	= p.ProductSubcategoryID
+		INNER JOIN
+		Production.ProductCategory		AS c
+			ON	c.ProductCategoryID		= s.ProductCategoryID
+WHERE	p.FinishedGoodsFlag				= 1;
 
 

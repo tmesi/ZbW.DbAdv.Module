@@ -6,26 +6,20 @@ FROM	dbo.Islands;
 
 
 
-
-
-
-
-
-
 --Step 1: add a row_number()
-SELECT	ID,
-		ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
-FROM	dbo.Islands;
+SELECT	ID			= i.ID,
+		RowNum		= ROW_NUMBER() OVER (ORDER BY i.ID)
+FROM	dbo.Islands	AS i;
 
 
 
 
 
 --Step 2: find the difference
-SELECT	ID,
-		ROW_NUMBER() OVER (ORDER BY ID) AS RowNum,
-		ID - ROW_NUMBER() OVER (ORDER BY ID) AS Diff
-FROM	dbo.Islands;
+SELECT	ID			= i.ID,
+		RowNum		= ROW_NUMBER()			OVER (ORDER BY i.ID),
+		Diff		= i.ID - ROW_NUMBER()	OVER (ORDER BY i.ID)
+FROM	dbo.Islands	AS i;
 
 
 
@@ -35,15 +29,15 @@ FROM	dbo.Islands;
 WITH Diffs
 AS
 (
-	SELECT	ID,
-			ROW_NUMBER() OVER (ORDER BY ID) AS RowNum,
-			ID - ROW_NUMBER() OVER (ORDER BY ID) AS Diff
-	FROM	dbo.Islands
+	SELECT	ID			= i.ID,
+			RowNum		= ROW_NUMBER()			OVER (ORDER BY i.ID),
+			Diff		= i.ID - ROW_NUMBER()	OVER (ORDER BY i.ID)
+	FROM	dbo.Islands	AS i
 )
-SELECT		MIN(ID) AS BeginningOfIsland,
-			MAX(ID) AS EndOfIsland
-FROM		Diffs
-GROUP BY	Diff;
+SELECT		BeginningOfIsland	= MIN(d.ID),
+			EndOfIsland			= MAX(d.ID)
+FROM		Diffs				AS d
+GROUP BY	d.Diff;
 
 
 
@@ -56,50 +50,50 @@ ORDER BY	OrderDate;
 
 
 --Step 1: Add row_number
-SELECT	OrderDate,
-		ROW_NUMBER() OVER (ORDER BY OrderDate) AS RowNum
-FROM	dbo.Islands;
+SELECT	OrderDate	= i.OrderDate,
+		RowNum		= ROW_NUMBER() OVER (ORDER BY i.OrderDate)
+FROM	dbo.Islands	AS i;
 
 --Try RANK
-SELECT	OrderDate,
-		RANK() OVER (ORDER BY OrderDate) AS Rnk
-FROM	dbo.Islands;
+SELECT	OrderDate	= i.OrderDate,
+		Rnk			= RANK() OVER (ORDER BY i.OrderDate)
+FROM	dbo.Islands	AS i;
 
 --Try DENSE_RANK
-SELECT	OrderDate,
-		DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-FROM	dbo.Islands;
+SELECT	OrderDate	= i.OrderDate,
+		DenseRnk	= DENSE_RANK() OVER (ORDER BY i.OrderDate)
+FROM	dbo.Islands	AS i;
 
 --Step 2: Add to a base date
 WITH Level1
 AS
 (
-	SELECT	OrderDate,
-			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	dbo.Islands
+	SELECT	OrderDate	= i.OrderDate,
+			DenseRnk	= DENSE_RANK() OVER (ORDER BY i.OrderDate)
+	FROM	dbo.Islands	AS i
 )
-SELECT	OrderDate,
-		DATEADD(d, DenseRnk, '2014-12-31') AS NewDate
-FROM	Level1;
+SELECT	OrderDate	= l.OrderDate,
+		NewDate		= DATEADD(d, l.DenseRnk, '2014-12-31')
+FROM	Level1		AS l;
 
 --Step 3: Find the difference
 WITH Level1
 AS
 (
-	SELECT	OrderDate,
-			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	dbo.Islands
+	SELECT	OrderDate	= i.OrderDate,
+			DenseRnk	= DENSE_RANK() OVER (ORDER BY i.OrderDate)
+	FROM	dbo.Islands	AS i
 ),
 	Level2
 AS
 (
-	SELECT	OrderDate,
-			DATEADD(d, DenseRnk, '2014-12-31') AS NewDate
-	FROM	Level1
+	SELECT	OrderDate	= l.OrderDate,
+			NewDate		= DATEADD(d, l.DenseRnk, '2014-12-31')
+	FROM	Level1		AS l
 )
-SELECT	OrderDate,
-		DATEDIFF(d, NewDate, OrderDate) DIFF
-FROM	Level2;
+SELECT	OrderDate	= l.OrderDate,
+		Diff		= DATEDIFF(d, l.NewDate, l.OrderDate)
+FROM	Level2		AS l;
 
 
 
@@ -107,41 +101,41 @@ FROM	Level2;
 WITH Level1
 AS
 (
-	SELECT	OrderDate,
-			DENSE_RANK() OVER (ORDER BY OrderDate) AS DenseRnk
-	FROM	dbo.Islands
+	SELECT	OrderDate	= i.OrderDate,
+			DenseRnk	= DENSE_RANK() OVER (ORDER BY i.OrderDate)
+	FROM	dbo.Islands	AS i
 ),
 	Level2
 AS
 (
-	SELECT	OrderDate,
-			DATEADD(d, DenseRnk, '2014-12-31') AS NewDate
-	FROM	Level1
+	SELECT	OrderDate	= l.OrderDate,
+			NewDate		= DATEADD(d, l.DenseRnk, '2014-12-31')
+	FROM	Level1		AS l
 ),
 	Level3
 AS
 (
-	SELECT	OrderDate,
-			DATEDIFF(d, NewDate, OrderDate) DIFF
-	FROM	Level2
+	SELECT	OrderDate	= l.OrderDate,
+			Diff		= DATEDIFF(d, l.NewDate, l.OrderDate)
+	FROM	Level2		AS l
 )
-SELECT		MIN(OrderDate)	AS Islandstart,
-			MAX(OrderDate)	AS IslandEnd
-FROM		Level3
-GROUP BY	DIFF;
+SELECT		Islandstart	= MIN(OrderDate),
+			IslandEnd	= MAX(OrderDate)
+FROM		Level3		AS l
+GROUP BY	l.Diff;
 
 -- Zusammenfassung der verschiedenen CTE-Levels zu einem CTE
 WITH Dates
 AS
 (
-	SELECT	OrderDate,
-			DATEDIFF(d, DATEADD(d, DENSE_RANK() OVER (ORDER BY OrderDate), '2014-12-31'), OrderDate) AS DIFF
-	FROM	dbo.Islands
+	SELECT	OrderDate		= i.OrderDate,
+			Diff			= DATEDIFF(d, DATEADD(d, DENSE_RANK() OVER (ORDER BY i.OrderDate), '2014-12-31'), i.OrderDate)
+	FROM	dbo.Islands		AS i
 )
-SELECT		MIN(OrderDate)	AS Islandstart,
-			MAX(OrderDate)	AS IslandEnd
-FROM		Dates
-GROUP BY	DIFF;
+SELECT		Islandstart		= MIN(d.OrderDate),
+			IslandEnd		= MAX(d.OrderDate) 
+FROM		Dates			AS d
+GROUP BY	d.Diff;
 
 
 
@@ -155,10 +149,10 @@ GROUP BY	DIFF;
 To recreate the table if needed:
 exec usp_CreateDuplicates;
 */
-SELECT	ID,
-		Val1,
-		Val2
-FROM	Duplicates;
+SELECT	ID				= d.ID,
+		Val1			= d.Val1,
+		Val2			= d.Val2
+FROM	dbo.Duplicates	AS d;
 
 
 
@@ -166,57 +160,44 @@ FROM	Duplicates;
 
 
 --Step 1: Add a row_number
-SELECT	ID,
-		Val1,
-		Val2,
-		ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
-FROM	Duplicates;
+SELECT	ID				= d.ID,
+		Val1			= d.Val1,
+		Val2			= d.Val2,
+		RowNum			= ROW_NUMBER() OVER (ORDER BY d.ID)
+FROM	dbo.Duplicates	AS d;
 
 
 
 
 
 --Step 2: Partition by each column
-SELECT	ID,
-		Val1,
-		Val2,
-		ROW_NUMBER() OVER (PARTITION BY ID,
-										Val1,
-										Val2
-						ORDER BY ID
-						) AS RowNum
-FROM	Duplicates;
+SELECT	ID				= d.ID,
+		Val1			= d.Val1,
+		Val2			= d.Val2,
+		RowNum			= ROW_NUMBER() OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID)
+FROM	dbo.Duplicates	AS d;
+
 
 -- ergibt Fehler - Lösung?
-SELECT	ID,
-		Val1,
-		Val2,
-		ROW_NUMBER() OVER (PARTITION BY ID,
-										Val1,
-										Val2
-						ORDER BY ID
-						) AS RowNum
-FROM	Duplicates
-WHERE	ROW_NUMBER() OVER (PARTITION BY ID,
-										Val1,
-										Val2
-						ORDER BY ID
-						) <> 1;
+SELECT	ID				= d.ID,
+		Val1			= d.Val1,
+		Val2			= d.Val2,
+		RowNum			= ROW_NUMBER() OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID)
+FROM	dbo.Duplicates	AS d
+WHERE	ROW_NUMBER()	OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID) <> 1;
 
-DELETE	FROM duplicates
-WHERE	id IN
+--DELETE	FROM duplicates
+SELECT	*
+FROM	dbo.duplicates	AS d
+WHERE	d.id IN
 		(
-			SELECT	id
+			SELECT	sq.ID
 			FROM	(
-						SELECT	ID,
-								Val1,
-								Val2,
-								ROW_NUMBER() OVER (PARTITION BY ID,
-																Val1,
-																Val2
-												ORDER BY ID
-												) AS RowNum
-						FROM	Duplicates
+						SELECT	ID				= d.ID,
+								Val1			= d.Val1,
+								Val2			= d.Val2,
+								RowNum			= ROW_NUMBER() OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID)
+						FROM	dbo.Duplicates	AS d
 					) AS sq
 			WHERE	sq.RowNum <> 1
 		);
@@ -229,15 +210,11 @@ WHERE	id IN
 WITH Dupes
 AS
 (
-	SELECT	ID,
-			Val1,
-			Val2,
-			ROW_NUMBER() OVER (PARTITION BY ID,
-											Val1,
-											Val2
-							ORDER BY ID
-							) AS RowNum
-	FROM	Duplicates
+	SELECT	ID				= d.ID,
+			Val1			= d.Val1,
+			Val2			= d.Val2,
+			RowNum			= ROW_NUMBER() OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID)
+	FROM	dbo.Duplicates	AS d
 )
 SELECT	ID,
 		Val1,
@@ -248,21 +225,15 @@ WHERE	RowNum <> 1;
 
 
 
-
-
 --Step 4: Delete
 WITH Dupes
 AS
 (
-	SELECT	ID,
-			Val1,
-			Val2,
-			ROW_NUMBER() OVER (PARTITION BY ID,
-											Val1,
-											Val2
-							ORDER BY ID
-							) AS RowNum
-	FROM	Duplicates
+	SELECT	ID				= d.ID,
+			Val1			= d.Val1,
+			Val2			= d.Val2,
+			RowNum			= ROW_NUMBER() OVER (PARTITION BY d.Id, d.Val1, d.Val2 ORDER BY d.ID)
+	FROM	dbo.Duplicates	AS d
 )
 DELETE	Dupes
 WHERE	RowNum <> 1;
@@ -270,103 +241,94 @@ WHERE	RowNum <> 1;
 
 
 --View the results
-SELECT		ID,
-			Val1,
-			Val2
-FROM		Duplicates
+SELECT		ID				= d.ID,
+			Val1			= d.Val1,
+			Val2			= d.Val2
+FROM		dbo.Duplicates	AS d
 ORDER BY	ID;
 
 
 
 
 --First N
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 --What are the first four orders for each product?
-SELECT	SOD.ProductID,
-		SOH.SalesOrderID,
-		FORMAT(SOH.OrderDate, 'yyyy-MM-dd') AS OrderDate
-FROM	Sales.SalesOrderHeader	AS SOH
-		JOIN
-		Sales.SalesOrderDetail	AS SOD
-			ON SOH.SalesOrderID = SOD.SalesOrderID
-WHERE	SOH.OrderDate	>= '2011-01-01'
-AND		SOH.OrderDate		< '2012-01-01';
+SELECT	ProductID				= sod.ProductID,
+		SalesOrderID			= soh.SalesOrderID,
+		OrderDate				= FORMAT(soh.OrderDate, 'yyyy-MM-dd') 
+FROM	Sales.SalesOrderHeader	AS soh
+		INNER JOIN
+		Sales.SalesOrderDetail	AS sod
+			ON soh.SalesOrderID	= sod.SalesOrderID
+WHERE	soh.OrderDate			>= '2011-01-01'
+  AND	soh.OrderDate			< '2012-01-01';
 
 
 
 --TOP(4) ?
 SELECT	TOP (4)
-		SOD.ProductID,
-		SOH.SalesOrderID,
-		FORMAT(SOH.OrderDate, 'yyyy-MM-dd') AS OrderDate
-FROM	Sales.SalesOrderHeader	AS SOH
-		JOIN
-		Sales.SalesOrderDetail	AS SOD
-			ON SOH.SalesOrderID = SOD.SalesOrderID
-WHERE	SOH.OrderDate	>= '2011-01-01'
-AND		SOH.OrderDate		< '2012-01-01';
+		ProductID				= sod.ProductID,
+		SalesOrderID			= soh.SalesOrderID,
+		OrderDate				= FORMAT(soh.OrderDate, 'yyyy-MM-dd') 
+FROM	Sales.SalesOrderHeader	AS soh
+		INNER JOIN
+		Sales.SalesOrderDetail	AS sod
+			ON soh.SalesOrderID	= sod.SalesOrderID
+WHERE	soh.OrderDate			>= '2011-01-01'
+  AND	soh.OrderDate			< '2012-01-01';
 
 
 
 --Step 1: Add a ROW_NUMBER
-SELECT	SOD.ProductID,
-		SOH.SalesOrderID,
-		FORMAT(SOH.OrderDate, 'yyyy-MM-dd') AS OrderDate,
-		ROW_NUMBER() OVER (PARTITION BY SOD.ProductID
-						ORDER BY SOH.SalesOrderID
-						)				AS RowNum
-FROM	Sales.SalesOrderHeader	AS SOH
-		JOIN
-		Sales.SalesOrderDetail	AS SOD
-			ON SOH.SalesOrderID = SOD.SalesOrderID
-WHERE	SOH.OrderDate	>= '2011-01-01'
-AND		SOH.OrderDate		< '2012-01-01';
-
-
+SELECT	ProductID				= sod.ProductID,
+		SalesOrderID			= soh.SalesOrderID,
+		OrderDate				= FORMAT(soh.OrderDate, 'yyyy-MM-dd'),
+		RowNum					= ROW_NUMBER() OVER (PARTITION BY SOD.ProductID ORDER BY SOH.SalesOrderID)
+FROM	Sales.SalesOrderHeader	AS soh
+		INNER JOIN
+		Sales.SalesOrderDetail	AS sod
+			ON soh.SalesOrderID	= sod.SalesOrderID
+WHERE	soh.OrderDate			>= '2011-01-01'
+  AND	soh.OrderDate			< '2012-01-01';
 
 
 --Step 2: Separate the logic
 WITH Orders
 AS
 (
-	SELECT	SOD.ProductID,
-			SOH.SalesOrderID,
-			FORMAT(SOH.OrderDate, 'yyyy-MM-dd') AS OrderDate,
-			ROW_NUMBER() OVER (PARTITION BY SOD.ProductID
-							ORDER BY SOH.SalesOrderID
-							)				AS RowNum
-	FROM	Sales.SalesOrderHeader	AS SOH
-			JOIN
-			Sales.SalesOrderDetail	AS SOD
-				ON SOH.SalesOrderID = SOD.SalesOrderID
-	WHERE	SOH.OrderDate	>= '2011-01-01'
-	AND		SOH.OrderDate		< '2012-01-01'
+	SELECT	ProductID				= sod.ProductID,
+			SalesOrderID			= soh.SalesOrderID,
+			OrderDate				= FORMAT(soh.OrderDate, 'yyyy-MM-dd'),
+			RowNum					= ROW_NUMBER() OVER (PARTITION BY SOD.ProductID ORDER BY SOH.SalesOrderID)
+	FROM	Sales.SalesOrderHeader	AS soh
+			INNER JOIN
+			Sales.SalesOrderDetail	AS sod
+				ON soh.SalesOrderID	= sod.SalesOrderID
+	WHERE	soh.OrderDate			>= '2011-01-01'
+	  AND	soh.OrderDate			< '2012-01-01'
 )
-SELECT	ProductID,
-		SalesOrderID,
-		OrderDate
-FROM	Orders
-WHERE	RowNum <= 4;
+SELECT	o.ProductID,
+		o.SalesOrderID,
+		o.OrderDate
+FROM	Orders	AS o
+WHERE	RowNum	<= 4;
 
 
 
 --The Gold Star Customers
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 
 --Step 1: Write aggregate query
-SELECT		SUM(TotalDue)	AS TotalSales,
-			CustomerID
-FROM		Sales.SalesOrderHeader
-WHERE		OrderDate	>= '2014-01-01'
-AND			OrderDate			< '2015-01-01'
-GROUP BY	CustomerID;
-
-
-
+SELECT		TotalSales				= SUM(soh.TotalDue),
+			CustomerID				= soh.CustomerID
+FROM		Sales.SalesOrderHeader	AS soh
+WHERE		OrderDate				>= '2014-01-01'
+AND			OrderDate				< '2015-01-01'
+GROUP BY	soh.CustomerID;
 
 
 
@@ -374,18 +336,18 @@ GROUP BY	CustomerID;
 WITH Sales
 AS
 (
-	SELECT		SUM(TotalDue)	AS TotalSales,
-				CustomerID
-	FROM		Sales.SalesOrderHeader
-	WHERE		OrderDate	>= '2014-01-01'
-	AND			OrderDate			< '2015-01-01'
-	GROUP BY	CustomerID
+	SELECT		TotalSales				= SUM(soh.TotalDue),
+				CustomerID				= soh.CustomerID
+	FROM		Sales.SalesOrderHeader	AS soh
+	WHERE		OrderDate				>= '2014-01-01'
+	AND			OrderDate				< '2015-01-01'
+	GROUP BY	soh.CustomerID
 )
-SELECT		TotalSales,
-			CustomerID,
-			NTILE(4) OVER (ORDER BY TotalSales) AS Bucket
-FROM		Sales
-ORDER BY	customerid;
+SELECT		TotalSales		= s.TotalSales,
+			CustomerID		= s.CustomerID,
+			Bucket			= NTILE(4) OVER (ORDER BY s.TotalSales)
+FROM		Sales			AS s
+ORDER BY	s.customerid;
 
 
 
@@ -395,31 +357,31 @@ ORDER BY	customerid;
 WITH Sales
 AS
 (
-	SELECT		SUM(TotalDue)	AS TotalSales,
-				CustomerID
-	FROM		Sales.SalesOrderHeader
-	WHERE		OrderDate	>= '2014-01-01'
-	AND			OrderDate			< '2015-01-01'
-	GROUP BY	CustomerID
+	SELECT		TotalSales				= SUM(soh.TotalDue),
+				CustomerID				= soh.CustomerID
+	FROM		Sales.SalesOrderHeader	AS soh
+	WHERE		OrderDate				>= '2014-01-01'
+	AND			OrderDate				< '2015-01-01'
+	GROUP BY	soh.CustomerID
 ),
 	Buckets
 AS
 (
-	SELECT	TotalSales,
-			CustomerID,
-			NTILE(4) OVER (ORDER BY TotalSales) AS Bucket
-	FROM	Sales
+	SELECT	TotalSales	= TotalSales,
+			CustomerID	= CustomerID,
+			Bucket		= NTILE(4) OVER (ORDER BY TotalSales) 
+	FROM	Sales		AS s
 )
-SELECT	TotalSales,
-		CustomerID,
-		CHOOSE(Bucket, 'No star', 'Bronze Star', 'Silver Star', 'Gold Star') AS CustomerCategory
-FROM	Buckets;
+SELECT	TotalSales			= b.TotalSales,
+		CustomerID			= b.CustomerID,
+		CustomerCategory	= CHOOSE(Bucket, 'No star', 'Bronze Star', 'Silver Star', 'Gold Star')
+FROM	Buckets				AS b;
 
 -- gleich wie oben, jedoch ohne CTE
-SELECT		SUM(TotalDue)																							AS TotalSales,
-			CustomerID,
-			CHOOSE(NTILE(4) OVER (ORDER BY SUM(TotalDue)), 'No star', 'Bronze Star', 'Silver Star', 'Gold Star') AS CustomerCategory
-FROM		Sales.SalesOrderHeader
-WHERE		OrderDate	>= '2014-01-01'
-AND			OrderDate			< '2015-01-01'
-GROUP BY	CustomerID;
+SELECT		TotalSales				= SUM(TotalDue),
+			CustomerID				= soh.CustomerID,
+			CustomerCategory		= CHOOSE(NTILE(4) OVER (ORDER BY SUM(soh.TotalDue)), 'No star', 'Bronze Star', 'Silver Star', 'Gold Star')
+FROM		Sales.SalesOrderHeader	AS soh
+WHERE		soh.OrderDate			>= '2014-01-01'
+AND			soh.OrderDate			< '2015-01-01'
+GROUP BY	soh.CustomerID;

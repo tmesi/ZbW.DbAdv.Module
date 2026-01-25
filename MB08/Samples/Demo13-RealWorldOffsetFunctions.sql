@@ -3,43 +3,43 @@ GO
 
 
 --The GAPS problem
-SELECT	ID
-FROM	dbo.Islands;
+SELECT	i.ID
+FROM	dbo.Islands	AS i;
 
 --Step 1: Pull next value with LEAD
-SELECT	ID									AS ThisValue,
-		LEAD(ID) OVER (ORDER BY ID) AS NextValue,
-		ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-FROM	dbo.Islands;
+SELECT	ThisValue	= i.ID									,
+		NextValue	= LEAD(i.ID) OVER (ORDER BY ID),
+		Diff		= i.ID - LEAD(i.ID) OVER (ORDER BY ID)
+FROM	dbo.Islands	AS i;
 
 
 --Step 2: Keep where the difference is not equal to -1
 WITH Vals
 AS
 (
-	SELECT	ID									AS ThisValue,
-			LEAD(ID) OVER (ORDER BY ID) AS NextValue,
-			ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-	FROM	dbo.Islands
+	SELECT	ThisValue	= i.ID									,
+			NextValue	= LEAD(i.ID) OVER (ORDER BY ID),
+			Diff		= i.ID - LEAD(i.ID) OVER (ORDER BY ID)
+	FROM	dbo.Islands	AS i
 )
-SELECT	ThisValue,
-		NextValue
-FROM	Vals
-WHERE	Diff <> -1;
+SELECT	v.ThisValue,
+		v.NextValue
+FROM	Vals	AS v
+WHERE	v.Diff	<> -1;
 
 --Step 3: Adjust the results
 WITH Vals
 AS
 (
-	SELECT	ID									AS ThisValue,
-			LEAD(ID) OVER (ORDER BY ID) AS NextValue,
-			ID - LEAD(ID) OVER (ORDER BY ID) AS Diff
-	FROM	dbo.Islands
+	SELECT	ThisValue	= i.ID									,
+			NextValue	= LEAD(i.ID) OVER (ORDER BY ID),
+			Diff		= i.ID - LEAD(i.ID) OVER (ORDER BY ID)
+	FROM	dbo.Islands	AS i
 )
-SELECT	ThisValue + 1 AS StartOfGap,
-		NextValue - 1 AS EndOfGap
-FROM	Vals
-WHERE	Diff <> -1;
+SELECT	StartOfGap	= v.ThisValue + 1,
+		EndOfGap	= v.NextValue - 1
+FROM	Vals		AS v
+WHERE	v.Diff		<> -1;
 
 
 
@@ -47,36 +47,36 @@ WHERE	Diff <> -1;
 WITH Step1
 AS
 (
-	SELECT		OrderDate
-	FROM		dbo.Islands
-	GROUP BY	OrderDate
+	SELECT		i.OrderDate
+	FROM		dbo.Islands	AS i
+	GROUP BY	i.OrderDate
 ),
 	Step2
 AS
 (
-	SELECT	OrderDate															AS ThisValue,
-			LEAD(OrderDate) OVER (ORDER BY OrderDate)					AS NextValue,
-			DATEDIFF(d, LEAD(OrderDate) OVER (ORDER BY OrderDate), OrderDate) AS Diff
-	FROM	Step1
+	SELECT	ThisValue	= s.OrderDate,
+			NextValue	= LEAD(s.OrderDate) OVER (ORDER BY s.OrderDate),
+			Diff		= DATEDIFF(d, LEAD(s.OrderDate) OVER (ORDER BY s.OrderDate), s.OrderDate)
+	FROM	Step1		AS s
 )
-SELECT	DATEADD(d, 1, ThisValue) AS StartOfGap,
-		DATEADD(d, -1, NextValue) AS EndOfGap
-FROM	Step2
-WHERE	Diff <> -1;
+SELECT	StartOfGap	= DATEADD(d, 1, s.ThisValue),
+		EndOfGap	= DATEADD(d, -1, s.NextValue)
+FROM	Step2		AS s
+WHERE	s.Diff		<> -1;
 
 
 
-USE AdventureWorks2016;
+USE AdventureWorks2022;
 GO
 
 --YOY
 --Step 1
-SELECT		YEAR(OrderDate)		AS OrderYear,
-			MONTH(OrderDate)	AS OrderMonth,
-			SUM(TotalDue)		AS TotalSales
-FROM		Sales.SalesOrderHeader
-GROUP BY	YEAR(OrderDate),
-			MONTH(OrderDate)
+SELECT		OrderYear				= YEAR(soh.OrderDate),
+			OrderMonth				= MONTH(soh.OrderDate),
+			TotalSales				= SUM(soh.TotalDue)
+FROM		Sales.SalesOrderHeader	AS soh
+GROUP BY	YEAR(soh.OrderDate),
+			MONTH(soh.OrderDate)
 ORDER BY	OrderYear,
 			OrderMonth;
 
@@ -85,78 +85,72 @@ ORDER BY	OrderYear,
 WITH Step1
 AS
 (
-	SELECT		YEAR(OrderDate)		AS OrderYear,
-				MONTH(OrderDate)	AS OrderMonth,
-				SUM(TotalDue)		AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate)
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderMonth				= MONTH(soh.OrderDate),
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)
 )
-SELECT	OrderYear,
-		OrderMonth,
-		TotalSales,
-		LAG(TotalSales, 12) OVER (ORDER BY OrderYear,
-										OrderMonth
-								) AS LastYearSales
-FROM	Step1;
+SELECT	OrderYear		= s.OrderYear,
+		OrderMonth		= s.OrderMonth,
+		TotalSales		= s.TotalSales,
+		LastYearSales	= LAG(TotalSales, 12) OVER (ORDER BY s.OrderYear, s.OrderMonth)
+FROM	Step1			AS s;
 
 
 WITH Step1
 AS
 (
-	SELECT		YEAR(OrderDate)		AS OrderYear,
-				MONTH(OrderDate)	AS OrderMonth,
-				SUM(TotalDue)		AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate)
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderMonth				= MONTH(soh.OrderDate),
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)
 ),
 	Step2
 AS
 (
-	SELECT	OrderYear,
-			OrderMonth,
-			TotalSales,
-			LAG(TotalSales, 12) OVER (ORDER BY OrderYear,
-											OrderMonth
-									) AS LastYearSales
-	FROM	Step1
+	SELECT	OrderYear		= s.OrderYear,
+			OrderMonth		= s.OrderMonth,
+			TotalSales		= s.TotalSales,
+			LastYearSales	= LAG(TotalSales, 12) OVER (ORDER BY s.OrderYear, s.OrderMonth)
+	FROM	Step1			AS s
 )
-SELECT	OrderYear,
-		OrderMonth,
-		TotalSales,
-		LastYearSales,
-		FORMAT((TotalSales - LastYearSales) / LastYearSales, 'P') AS PercentChange
-FROM	Step2
-WHERE	LastYearSales IS NOT NULL;
+SELECT	OrderYear		= s.OrderYear,
+		OrderMonth		= s.OrderMonth,
+		TotalSales		= s.TotalSales,
+		LastYearSales	= s.LastYearSales,
+		PercentChange	= FORMAT((s.TotalSales - s.LastYearSales) / s.LastYearSales, 'P')
+FROM	Step2			AS s
+WHERE	s.LastYearSales	IS NOT NULL;
 
 --Quarters
 WITH Step1
 AS
 (
-	SELECT		YEAR(OrderDate)				AS OrderYear,
-				MONTH(OrderDate) / 4 + 1 AS OrderQtr,
-				SUM(TotalDue)				AS TotalSales
-	FROM		Sales.SalesOrderHeader
-	GROUP BY	YEAR(OrderDate),
-				MONTH(OrderDate) / 4 + 1
+	SELECT		OrderYear				= YEAR(soh.OrderDate),
+				OrderQtr				= MONTH(soh.OrderDate) / 4 + 1,
+				TotalSales				= SUM(soh.TotalDue)
+	FROM		Sales.SalesOrderHeader	AS soh
+	GROUP BY	YEAR(soh.OrderDate),
+				MONTH(soh.OrderDate)  / 4 + 1
 ),
 	Step2
 AS
 (
-	SELECT	OrderYear,
-			OrderQtr,
-			TotalSales,
-			LAG(TotalSales, 4) OVER (ORDER BY OrderYear,
-											OrderQtr
-									)	AS LastYearSales
-	FROM	Step1
+	SELECT	OrderYear		= s.OrderYear,
+			OrderQtr		= s.OrderQtr,
+			TotalSales		= s.TotalSales,
+			LastYearSales	= LAG(s.TotalSales, 4) OVER (ORDER BY s.OrderYear, s.OrderQtr)
+	FROM	Step1			AS s
 )
-SELECT	OrderYear,
-		OrderQtr,
-		TotalSales,
-		LastYearSales,
-		FORMAT((TotalSales - LastYearSales) / LastYearSales, 'P') AS PercentChange
-FROM	Step2
-WHERE	LastYearSales IS NOT NULL;
+SELECT	OrderYear		= s.OrderYear,
+		OrderQtr		= s.OrderQtr,
+		TotalSales		= s.TotalSales,
+		LastYearSales	= s.LastYearSales,
+		PercentChange	= FORMAT((s.TotalSales - s.LastYearSales) / s.LastYearSales, 'P')
+FROM	Step2			AS s
+WHERE	s.LastYearSales	IS NOT NULL;
 
