@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# SQL Server Management Studio Version 21
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Samples", "MB10\Samples\Samples.ssmssqlproj", "{85C8B4A3-A5C2-5D7B-F002-7E57F8805EF1}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Exercises", "MB10\Exercises\Exercises.ssmssqlproj", "{CCD2D62A-B1F1-5598-BF67-1995B33FD7FE}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Repetition", "MB10\Repetition\Repetition.ssmssqlproj", "{DB562F2D-C889-EF42-9F36-9B3E4FB6C87A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Default = Default|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85C8B4A3-A5C2-5D7B-F002-7E57F8805EF1}.Default|Default.ActiveCfg = Default
+		{CCD2D62A-B1F1-5598-BF67-1995B33FD7FE}.Default|Default.ActiveCfg = Default
+		{DB562F2D-C889-EF42-9F36-9B3E4FB6C87A}.Default|Default.ActiveCfg = Default
+		{8D3C96B0-FE76-4458-94ED-062302B95F7F}.Default|Default.ActiveCfg = Default
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97C1ECC3-C583-4A5E-A479-16ACD33ED1B3}
+	EndGlobalSection
+EndGlobal
