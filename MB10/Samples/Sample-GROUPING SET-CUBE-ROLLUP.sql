@@ -10,6 +10,7 @@ SELECT		ort,
 FROM		dbo.op_verkauf
 GROUP BY	GROUPING SETS((artikelgruppe, ort), (ort));
 
+-- gleich wie
 SELECT		ort,
 			artikelgruppe,
 			SUM(preis * anzahl)
@@ -21,7 +22,8 @@ SELECT		ort,
 			NULL,
 			SUM(preis * anzahl)
 FROM		dbo.op_verkauf
-GROUP BY	ort;
+GROUP BY	ort
+ORDER BY	ort;
 
 --- CUBE ---
 SELECT		jahr,
@@ -31,6 +33,7 @@ SELECT		jahr,
 FROM		dbo.op_verkauf
 GROUP BY	CUBE(jahr, artikelgruppe, ort);
 
+-- gleich wie
 SELECT		jahr,
 			artikelgruppe,
 			ort,
@@ -89,7 +92,8 @@ SELECT	NULL,
 		NULL,
 		NULL,
 		SUM(preis * anzahl)
-FROM	dbo.op_verkauf;
+FROM	dbo.op_verkauf
+ORDER BY JAHR;
 
 
 --- ROLLUP ---
@@ -100,6 +104,7 @@ SELECT		jahr,
 FROM		dbo.op_verkauf
 GROUP BY	ROLLUP(jahr, artikelgruppe, ort);
 
+-- gleich wie
 SELECT		jahr,
 			artikelgruppe,
 			ort,
@@ -128,5 +133,6 @@ SELECT	NULL,
 		NULL,
 		NULL,
 		SUM(preis * anzahl)
-FROM	dbo.op_verkauf;
+FROM	dbo.op_verkauf
+ORDER BY JAHR;
 

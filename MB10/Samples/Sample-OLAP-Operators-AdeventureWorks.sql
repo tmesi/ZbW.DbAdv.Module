@@ -22,7 +22,8 @@ FROM		dbo.FactInternetSales				AS f
 				ON f.SalesTerritoryKey			= t.SalesTerritoryKey
 GROUP BY	d.CalendarYear,
 			p.EnglishProductName,
-			t.SalesTerritoryCountry;
+			t.SalesTerritoryCountry
+ORDER BY d.CalendarYear, p.EnglishProductName, t.SalesTerritoryCountry;
 
 
 /* ROLLUP
