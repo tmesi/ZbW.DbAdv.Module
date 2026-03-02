@@ -6,6 +6,12 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
+        <FileNode Name="BiTemporal-Salaries-Demo.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>BiTemporal-Salaries-Demo.sql</FullPath>
+        </FileNode>
         <FileNode Name="Temporal-Demo-Sql-Server.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
