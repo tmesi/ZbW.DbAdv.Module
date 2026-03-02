@@ -12,6 +12,12 @@
           <AssociatedConnUserName />
           <FullPath>Sample-GROUPING SET-CUBE-ROLLUP.sql</FullPath>
         </FileNode>
+        <FileNode Name="Sample-OLAP-Operators-AdeventureWorks.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Sample-OLAP-Operators-AdeventureWorks.sql</FullPath>
+        </FileNode>
         <FileNode Name="SELECT-differences-OLTP-OLAP.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
