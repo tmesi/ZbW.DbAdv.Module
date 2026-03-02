@@ -6,6 +6,12 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
+        <FileNode Name="Sample-GROUPING SET-CUBE-ROLLUP.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Sample-GROUPING SET-CUBE-ROLLUP.sql</FullPath>
+        </FileNode>
         <FileNode Name="SELECT-differences-OLTP-OLAP.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
