@@ -44,5 +44,8 @@
   <ItemGroup>
     <Reference Include="System.Data" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Settings_CLR.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
