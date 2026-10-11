@@ -1,46 +1,89 @@
-﻿using System.Data;
-using System.Data.OleDb;
-
-public class DumpDB
+// Aufgabe 7: DumpDB (Musterlösung, SQLite-Variante)
+//
+// Aufruf:  DumpDB Contacts.db Person Contact
+//
+// Liest die angegebenen Tabellen verbindungslos in ein DataSet und gibt sie aus.
+namespace DumpDB
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SQLite;
+    using System.IO;
+    using System.Linq;
 
-    public static void Main(string[] args)
+    internal class Program
     {
-        if (args.Length == 0)
+        static int Main(string[] args)
         {
-            Console.WriteLine("usage: DumpDB DBname {TableName}");
-            return;
-        }
-        //--- create a DataSet
-        DataSet ds = new DataSet();
-
-        //--- open the database and fill the tables
-        OleDbConnection con = new OleDbConnection("provider=Microsoft.ACE.OLEDB.16.0;Data Source = " + args[0]);
-    
-        OleDbDataAdapter adapter = new();
-        for (int i = 1; i < args.Length; i++)
-        {
-            string tableName = args[i];
-      using var _ = adapter.SelectCommand = new OleDbCommand($"SELECT * FROM {tableName}", con);
-            adapter.Fill(ds, tableName);
-        }
-        con.Close();
-
-        //--- display the tables on the Console
-        foreach (DataTable table in ds.Tables)
-        {
-            Console.WriteLine(table.TableName);
-            foreach (DataColumn col in table.Columns)
+            if (args.Length < 2)
             {
-                Console.Write(col.ColumnName + "\t");
+                Console.WriteLine("usage: DumpDB DbFile TableName {TableName}");
+                return 1;
             }
-            Console.WriteLine();
-            foreach (DataRow row in table.Rows)
+
+            SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder();
+            csb.DataSource = args[0];
+            csb.FailIfMissing = true;     // sonst legt SQLite bei falschem Pfad still eine LEERE Datenbank an
+
+            DataSet ds = new DataSet(Path.GetFileNameWithoutExtension(args[0]));
+
+            using (SQLiteConnection con = new SQLiteConnection(csb.ConnectionString))
             {
-                foreach (object obj in row.ItemArray) Console.Write(obj + "\t");
+                // Tabellennamen lassen sich NICHT als Parameter übergeben.
+                // -> gegen die Liste der existierenden Tabellen prüfen (Whitelist), statt blind zu verketten.
+                HashSet<string> existing = ReadTableNames(con);
+
+                for (int i = 1; i < args.Length; i++)
+                {
+                    string tableName = args[i];
+                    if (!existing.Contains(tableName))
+                    {
+                        Console.WriteLine($"Tabelle '{tableName}' existiert nicht – übersprungen.");
+                        continue;
+                    }
+
+                    using (SQLiteDataAdapter adapter = new SQLiteDataAdapter($"SELECT * FROM \"{tableName}\"", con))
+                    {
+                        adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;   // Primärschlüssel mitladen
+                        adapter.Fill(ds, tableName);                                     // Fill öffnet und schliesst die Verbindung selbst
+                    }
+                }
+            }
+            // ab hier: keine Verbindung mehr – das DataSet lebt allein im Hauptspeicher
+
+            foreach (DataTable table in ds.Tables)
+            {
+                string pk = string.Join(",", table.PrimaryKey.Select(c => c.ColumnName));
+                Console.WriteLine($"=== {table.TableName} ({table.Rows.Count} Zeilen, PK: {pk})");
+                Console.WriteLine(string.Join("\t", table.Columns.Cast<DataColumn>().Select(c => c.ColumnName)));
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Console.WriteLine(string.Join("\t", row.ItemArray));
+                }
                 Console.WriteLine();
             }
-            Console.WriteLine();
+            return 0;
+        }
+
+        static HashSet<string> ReadTableNames(SQLiteConnection con)
+        {
+            HashSet<string> names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            con.Open();
+
+            using (SQLiteCommand cmd = new SQLiteCommand(
+                       "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'", con))
+            using (SQLiteDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    names.Add(reader.GetString(0));
+                }
+            }
+
+            con.Close();
+            return names;
         }
     }
 }

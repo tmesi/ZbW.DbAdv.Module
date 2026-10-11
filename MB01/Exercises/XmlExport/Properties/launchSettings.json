@@ -2,7 +2,7 @@
   "profiles": {
     "Export": {
       "commandName": "Project",
-      "commandLineArgs": "\"provider=Microsoft.ACE.OLEDB.16.0; data source=./Contacts.mdb\" \"contacts.xml\""
+      "commandLineArgs": "\"Data Source=Contacts.db;FailIfMissing=True\" \"contacts.xml\""
     }
   }
 }

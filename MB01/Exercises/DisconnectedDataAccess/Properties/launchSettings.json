@@ -2,7 +2,11 @@
   "profiles": {
     "DumbDb": {
       "commandName": "Project",
-      "commandLineArgs": "contacts.mdb Person Contact"
+      "commandLineArgs": "Contacts.db Person Contact"
+    },
+    "DumbDb (unbekannte Tabelle)": {
+      "commandName": "Project",
+      "commandLineArgs": "Contacts.db Person \"Contact; DROP TABLE Person\""
     }
   }
 }

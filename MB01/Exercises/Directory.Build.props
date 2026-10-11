@@ -1,0 +1,24 @@
+<Project>
+  <!--
+    Gemeinsame Einstellungen für alle Übungsprojekte in MB01/Exercises.
+    SQLite statt MS Access: läuft ohne Office/ACE-Treiber, ohne 32/64-Bit-Probleme,
+    auf Windows, macOS und Linux.
+
+    System.Data.SQLite 2.x enthält die native SQLite-Bibliothek NICHT mehr.
+    SourceGear.sqlite3 liefert sie (e_sqlite3). Ohne dieses Paket:
+    "Unable to load DLL 'e_sqlite3'".
+  -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'AdoNetRep'">
+    <PackageReference Include="System.Data.SQLite" Version="2.0.4" />
+    <PackageReference Include="SourceGear.sqlite3" Version="3.50.4.5" />
+  </ItemGroup>
+
+  <!-- AdoNetRep (Repetition) arbeitet weiterhin mit SQL Server/Northwind. -->
+
+  <!-- Gemeinsame Datenbank ins Ausgabeverzeichnis kopieren -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'AdoNetRep'">
+    <None Include="$(MSBuildThisFileDirectory)..\Data\Contacts.db" Link="Contacts.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "KontakteLive (interaktiv)": {
+      "commandName": "Project"
+    },
+    "Terminal A: lock": {
+      "commandName": "Project",
+      "commandLineArgs": "lock"
+    },
+    "Terminal A: edit 1 111": {
+      "commandName": "Project",
+      "commandLineArgs": "edit 1 071 111 11 11"
+    }
+  }
+}

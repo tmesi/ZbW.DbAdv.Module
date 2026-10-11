@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "06_Access": {
+    "SqlBatch": {
       "commandName": "Project",
       "commandLineArgs": "sqlcmd.txt result.txt"
+    },
+    "SqlBatch (Fehlerfall/Rollback)": {
+      "commandName": "Project",
+      "commandLineArgs": "sqlcmd_fail.txt result_fail.txt"
     }
   }
 }

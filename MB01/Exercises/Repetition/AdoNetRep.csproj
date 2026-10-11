@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <!-- System.Data.SqlClient ist abgekündigt -> Microsoft.Data.SqlClient (wie im Aufgabenblatt beschrieben) -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
   </ItemGroup>
 
 </Project>

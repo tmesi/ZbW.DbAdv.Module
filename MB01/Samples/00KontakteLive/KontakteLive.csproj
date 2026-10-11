@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    KontakteLive – durchgehende Live-Demo für MB01 ADO.NET.
+    Eine kleine Kontaktverwaltung (Konsole), die pro Theorieblock um EINEN Befehl wächst.
+    Start ohne Argumente = interaktiver Modus (kontakte> ...), mit Argumenten = ein Befehl
+    (praktisch für die Demos mit zwei Terminals: lock, edit).
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>KontakteLive</RootNamespace>
+    <AssemblyName>KontakteLive</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- System.Data.SQLite 2.x bringt die native SQLite-Bibliothek nicht mehr mit -> SourceGear.sqlite3 -->
+    <PackageReference Include="System.Data.SQLite" Version="2.0.4" />
+    <PackageReference Include="SourceGear.sqlite3" Version="3.50.4.5" />
+    <!-- nur für den Provider-Wechsel (Befehl 'provider sqlserver') -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Nur das Skript wird kopiert: die Datenbank entsteht live mit dem Befehl 'init' -->
+    <None Include="..\..\Data\Contacts.sql" Link="Contacts.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
