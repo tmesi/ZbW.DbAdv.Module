@@ -8,7 +8,7 @@ namespace AdoNetRep
         static void Main(string[] args)
         {
             Console.Write("Enter Filter-Criteria: ");
-            string? filter = Console.ReadLine();
+            string filter = Console.ReadLine();
 
             try
             {
