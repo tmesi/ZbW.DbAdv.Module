@@ -1,0 +1,6 @@
+Data Source=Contacts.db;Foreign Keys=True;FailIfMissing=True
+UPDATE Person SET Name = 'Rollback?' WHERE ID = 2;
+SELECT * FROM Person WHERE ID = 2;
+-- Fehler: Person 999 existiert nicht -> Fremdschlüsselverletzung
+INSERT INTO Contact (Name, PersonID) VALUES ('Niemand', 999);
+SELECT * FROM Person;

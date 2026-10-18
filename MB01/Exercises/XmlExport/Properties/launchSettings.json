@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Export": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Data Source=Contacts.db;FailIfMissing=True\" \"contacts.xml\""
+    }
+  }
+}
