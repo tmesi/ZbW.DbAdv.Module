@@ -10,7 +10,7 @@
       // Installation Northwind-Datenbank: https://northwinddatabase.codeplex.com/releases/view/71634
 
       // Connectionstring: https://www.connectionstrings.com/sqlconnection/
-      string connStr = "Data Source=.\\DEV;Initial Catalog=Northwind;Integrated Security=True;Encrypt=False";
+      string connStr = "Data Source=.;Initial Catalog=Northwind;Integrated Security=True;Encrypt=False";
 
       IDbConnection con = new SqlConnection(connStr);   //Verbindung erzeugen
       IDbTransaction trans = null!;
